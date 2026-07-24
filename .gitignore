@@ -1,0 +1,8 @@
+# Raw/unprocessed reference photos and script (large source files, not part of the deployed site)
+사진/
+ChosunCentennial_ttf.ttf
+
+# Spring Boot build/runtime artifacts
+backend/target/
+backend/data/
+backend/run.log

@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(java -version)",
+      "Bash(mvn -version)",
+      "Bash(gradle -version)",
+      "Bash(where java *)",
+      "Bash(curl -sI --max-time 5 https://repo.maven.apache.org/maven2/)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(curl -s http://localhost:8080/api/votes)",
+      "Bash(curl -s -X POST http://localhost:8080/api/votes -H \"Content-Type: application/json\" -d '{\"suspectId\":\"a\",\"previousSuspectId\":null}')",
+      "Bash(curl -s -o /dev/null -w \"index.html: %{http_code}\\\\n\" http://localhost:8080/)",
+      "Bash(curl -s -o /dev/null -w \"범인찾기.html: %{http_code}\\\\n\" \"http://localhost:8080/%EB%B2%94%EC%9D%B8%EC%B0%BE%EA%B8%B0.html\")",
+      "PowerShell(Start-Process \"http://localhost:8080/\")",
+      "Bash(curl -s http://localhost:8080/style.css)",
+      "Bash(curl -s -o /dev/null -w \"index: %{http_code}\\\\n\" http://localhost:8080/)",
+      "Bash(curl -s -o /dev/null -w \"hunt.css: %{http_code}\\\\n\" http://localhost:8080/hunt.css)",
+      "Bash(curl -s http://localhost:8080/)",
+      "Bash(curl -s http://localhost:8080/hunt.css)"
+    ]
+  }
+}
