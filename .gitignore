@@ -6,3 +6,14 @@ ChosunCentennial_ttf.ttf
 backend/target/
 backend/data/
 backend/run.log
+
+# Stacked Cards Hover Effect (React landing page) build/runtime artifacts
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/*.local
+**/dev-out.log
+**/dev-err.log
+**/.env
+**/.env.*
+npm-debug.log*

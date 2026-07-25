@@ -237,6 +237,22 @@ function setupCardCarousel(root, autoMs) {
 
   render();
 
+  // The perspective + scale() transforms below can be computed against a stale
+  // size on first paint (same class of bug noted below for the visibilitychange
+  // case), especially before web fonts/images finish loading and the surrounding
+  // layout settles. Force a reflow once everything has actually finished loading
+  // so the transforms recompute against final layout.
+  function forceReflow() {
+    root.style.display = 'none';
+    void root.offsetHeight;
+    root.style.display = '';
+  }
+  if (document.readyState === 'complete') {
+    forceReflow();
+  } else {
+    window.addEventListener('load', forceReflow, { once: true });
+  }
+
   let timer = null;
   function stopAuto() {
     if (timer) {
@@ -259,50 +275,12 @@ function setupCardCarousel(root, autoMs) {
       // iOS Safari can restore this element's 3D-transform compositing layer
       // at a stale size after the tab is backgrounded (perspective + preserve-3d
       // on .suspect-inner). Force a reflow to make it recompute against current CSS.
-      root.style.display = 'none';
-      void root.offsetHeight;
-      root.style.display = '';
+      forceReflow();
     }
   });
 }
 
 document.querySelectorAll('.suspect-carousel').forEach((root) => setupCardCarousel(root, 10000));
-
-function setupZoomParallax() {
-  const section = document.querySelector('.zoom-parallax');
-  if (!section) return;
-  const items = Array.from(section.querySelectorAll('.zoom-item'));
-  const title = section.querySelector('.zoom-title');
-  let ticking = false;
-
-  function update() {
-    ticking = false;
-    const rect = section.getBoundingClientRect();
-    const scrollable = rect.height - window.innerHeight;
-    const progress = scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0;
-    items.forEach((item) => {
-      const to = parseFloat(item.dataset.scaleTo || '1');
-      item.style.transform = `scale(${1 + (to - 1) * progress})`;
-    });
-    if (title) {
-      const fade = Math.max(0, 1 - progress / 0.3);
-      title.style.opacity = String(fade);
-      title.style.pointerEvents = fade === 0 ? 'none' : 'auto';
-    }
-  }
-
-  function onScroll() {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  update();
-}
-setupZoomParallax();
 
 function setupTextReveal() {
   const el = document.querySelector('.reveal-text');
