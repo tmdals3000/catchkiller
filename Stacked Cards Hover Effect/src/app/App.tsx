@@ -29,7 +29,7 @@ export default function App() {
         title={
           <>
             <span className="block text-7xl md:text-9xl" style={{ fontFamily: "'MuseumCulturalFoundationClassic', sans-serif" }}>세종극회</span>
-            <span className="block text-2xl md:text-4xl mt-2 font-normal" style={{ fontFamily: "'NostalgicPoliceVibe', sans-serif" }}>Sejong Dramatic Art Group</span>
+            <span className="block text-2xl md:text-4xl mt-2 font-normal" style={{ fontFamily: "'NanumGothic', sans-serif" }}>Sejong Dramatic Art Group</span>
           </>
         }
         description={
@@ -42,7 +42,7 @@ export default function App() {
           </>
         }
         ctaText="Get Started"
-        ctaHref={`http://${window.location.hostname}:8080/`}
+        ctaHref="/show.html"
         images={HERO_IMAGES}
       />
       <Footer />

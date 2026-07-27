@@ -91,6 +91,7 @@ function setupIntroScramble() {
   function onDone() {
     setTimeout(() => {
       overlay.classList.add('intro-done');
+      document.body.classList.add('intro-revealed');
       setTimeout(() => overlay.remove(), 700);
     }, 500);
   }
@@ -153,60 +154,85 @@ if (hamburger && dropdownMenu) {
   });
 }
 
-function setupCardCarousel(root, autoMs) {
-  const cards = Array.from(root.querySelectorAll('.suspect-card'));
-  const order = cards.map((card) => card.dataset.id);
-  const cardsById = {};
-  cards.forEach((card) => { cardsById[card.dataset.id] = card; });
-
-  let index = 0;
-  let suppressClick = false;
+function setupShowcaseCarousel(root, autoMs) {
+  const cards = Array.from(root.querySelectorAll('.suspect-showcase-card'));
+  const total = cards.length;
+  let currentIndex = Math.floor(total / 2);
 
   function render() {
-    const total = order.length;
-    order.forEach((id, i) => {
-      let offset = i - index;
-      if (offset > total / 2) offset -= total;
-      if (offset < -total / 2) offset += total;
-      cardsById[id].dataset.offset = String(offset);
+    cards.forEach((card, i) => {
+      let pos = (i - currentIndex) % total;
+      if (pos > Math.floor(total / 2)) pos -= total;
+      if (pos < -Math.floor(total / 2)) pos += total;
+
+      const isCenter = pos === 0;
+      const isAdjacent = Math.abs(pos) === 1;
+
+      card.style.transform = `translateX(${pos * 38}%) scale(${isCenter ? 1 : isAdjacent ? .8 : .7}) rotateY(${pos * -10}deg)`;
+      card.style.zIndex = isCenter ? 10 : isAdjacent ? 5 : 1;
+      card.style.opacity = isCenter ? 1 : isAdjacent ? .4 : 0;
+      card.style.filter = isCenter ? 'blur(0px)' : 'blur(4px)';
+      card.style.visibility = Math.abs(pos) > 1 ? 'hidden' : 'visible';
+
+      if (!isCenter) card.classList.remove('flipped');
     });
   }
 
-  function goTo(newIndex) {
-    const total = order.length;
-    index = ((newIndex % total) + total) % total;
+  function next() {
+    currentIndex = (currentIndex + 1) % total;
     render();
   }
 
-  cards.forEach((card) => {
-    const activate = () => {
+  function prev() {
+    currentIndex = (currentIndex - 1 + total) % total;
+    render();
+  }
+
+  function goTo(i) {
+    currentIndex = ((i % total) + total) % total;
+    render();
+  }
+
+  let suppressClick = false;
+
+  cards.forEach((card, i) => {
+    card.addEventListener('click', () => {
       if (suppressClick) {
         suppressClick = false;
         return;
       }
-      if (card.dataset.offset === '0') {
+      if (i === currentIndex) {
         card.classList.toggle('flipped');
-      } else {
-        goTo(order.indexOf(card.dataset.id));
+        return;
       }
-    };
-    card.addEventListener('click', activate);
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        activate();
-      }
+      goTo(i);
+      startAuto();
     });
   });
 
-  root.addEventListener('click', (e) => {
-    if (e.target.closest('.suspect-card')) return;
-    const rect = root.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    goTo(clickX < rect.width / 2 ? index - 1 : index + 1);
+  let timer = null;
+  function stopAuto() {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+  function startAuto() {
+    if (!autoMs) return;
+    stopAuto();
+    timer = setInterval(next, autoMs);
+  }
+
+  root.querySelector('.suspect-showcase-nav.prev').addEventListener('click', () => {
+    prev();
+    startAuto();
+  });
+  root.querySelector('.suspect-showcase-nav.next').addEventListener('click', () => {
+    next();
+    startAuto();
   });
 
-  const stage = root.querySelector('.suspects');
+  const stage = root.querySelector('.suspect-showcase-stage');
   if (stage) {
     let startX = 0;
     let startY = 0;
@@ -226,7 +252,8 @@ function setupCardCarousel(root, autoMs) {
       const dy = e.clientY - startY;
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
         suppressClick = true;
-        goTo(dx < 0 ? index + 1 : index - 1);
+        dx < 0 ? next() : prev();
+        startAuto();
       }
     });
 
@@ -236,12 +263,12 @@ function setupCardCarousel(root, autoMs) {
   }
 
   render();
+  startAuto();
 
-  // The perspective + scale() transforms below can be computed against a stale
-  // size on first paint (same class of bug noted below for the visibilitychange
-  // case), especially before web fonts/images finish loading and the surrounding
-  // layout settles. Force a reflow once everything has actually finished loading
-  // so the transforms recompute against final layout.
+  // The scale()/rotateY() transforms above can be computed against a stale
+  // size on first paint, especially on mobile before images finish loading and
+  // the surrounding layout settles. Force a reflow once everything has actually
+  // finished loading so the transforms recompute against final layout.
   function forceReflow() {
     root.style.display = 'none';
     void root.offsetHeight;
@@ -253,34 +280,17 @@ function setupCardCarousel(root, autoMs) {
     window.addEventListener('load', forceReflow, { once: true });
   }
 
-  let timer = null;
-  function stopAuto() {
-    if (timer) {
-      clearInterval(timer);
-      timer = null;
-    }
-  }
-  function startAuto() {
-    if (!autoMs) return;
-    stopAuto();
-    timer = setInterval(() => goTo(index + 1), autoMs);
-  }
-
-  startAuto();
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       stopAuto();
     } else {
       startAuto();
-      // iOS Safari can restore this element's 3D-transform compositing layer
-      // at a stale size after the tab is backgrounded (perspective + preserve-3d
-      // on .suspect-inner). Force a reflow to make it recompute against current CSS.
       forceReflow();
     }
   });
 }
 
-document.querySelectorAll('.suspect-carousel').forEach((root) => setupCardCarousel(root, 10000));
+document.querySelectorAll('.suspect-showcase').forEach((root) => setupShowcaseCarousel(root, 4000));
 
 function setupTextReveal() {
   const el = document.querySelector('.reveal-text');
@@ -289,13 +299,15 @@ function setupTextReveal() {
   const original = el.textContent;
   el.textContent = '';
   const chars = [];
-  Array.from(original).forEach((ch) => {
+  const accentStart = original.indexOf('용의자');
+  const accentEnd = accentStart === -1 ? -1 : accentStart + '용의자'.length;
+  Array.from(original).forEach((ch, i) => {
     if (ch === ' ') {
       el.appendChild(document.createTextNode(' '));
       return;
     }
     const span = document.createElement('span');
-    span.className = 'reveal-char';
+    span.className = 'reveal-char' + (i >= accentStart && i < accentEnd ? ' reveal-char-danger' : '');
     span.textContent = ch;
     el.appendChild(span);
     chars.push(span);
@@ -305,8 +317,8 @@ function setupTextReveal() {
   function update() {
     ticking = false;
     const rect = el.getBoundingClientRect();
-    const start = window.innerHeight * 0.85;
-    const end = start - window.innerHeight * 0.5;
+    const start = window.innerHeight * 0.7;
+    const end = start - window.innerHeight * 0.18;
     const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
 
     chars.forEach((span) => {

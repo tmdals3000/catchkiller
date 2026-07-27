@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "./utils";
 
@@ -70,21 +70,6 @@ export const AnimatedMarqueeHero: React.FC<AnimatedMarqueeHeroProps> = ({
       return next;
     });
   };
-
-  const copyARef = useRef<HTMLDivElement>(null);
-  const copyBRef = useRef<HTMLDivElement>(null);
-  const [shiftDistance, setShiftDistance] = useState(0);
-
-  useEffect(() => {
-    const measure = () => {
-      if (copyARef.current && copyBRef.current) {
-        setShiftDistance(copyBRef.current.offsetLeft - copyARef.current.offsetLeft);
-      }
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [normalizedImages.length]);
 
   const renderCard = (image: MarqueeImage, index: number) => (
     <div
@@ -206,18 +191,14 @@ export const AnimatedMarqueeHero: React.FC<AnimatedMarqueeHeroProps> = ({
       </div>
 
       <div className="relative w-[calc(100%+2rem)] -mx-4 mt-10 pt-4 pb-8 md:pb-12 overflow-x-hidden overflow-y-visible">
-        <motion.div
-          className="flex gap-4"
-          animate={shiftDistance ? { x: [-shiftDistance, 0] } : undefined}
-          transition={{ ease: "linear", duration: 22, repeat: Infinity }}
-        >
-          <div ref={copyARef} className="flex gap-4 flex-shrink-0">
+        <div className="flex gap-4 w-max marquee-track">
+          <div className="flex gap-4 flex-shrink-0">
             {normalizedImages.map((image, index) => renderCard(image, index))}
           </div>
-          <div ref={copyBRef} className="flex gap-4 flex-shrink-0">
+          <div className="flex gap-4 flex-shrink-0">
             {normalizedImages.map((image, index) => renderCard(image, index + normalizedImages.length))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

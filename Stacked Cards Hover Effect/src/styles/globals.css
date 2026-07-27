@@ -1,3 +1,5 @@
+@import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');
+
 @font-face {
   font-family: 'Shilla';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/Shilla_CultureM-Medium.woff2') format('woff2');
@@ -66,6 +68,29 @@
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/국립박물관문화재단클래식B.woff') format('woff');
   font-weight: 700;
   font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ridibatang';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NostalgicGukhanbakOchungiWriterKim';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/2607161334@griunxhangeulochungikim-regular/griunxhangeulochungikim-regular/GriunXHangeulOCHUNGIKIM-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee-scroll 22s linear infinite;
 }
 
 @custom-variant dark (&:is(.dark *));
