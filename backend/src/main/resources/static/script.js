@@ -15,19 +15,18 @@ function getScrambleChar(prevChar) {
 }
 
 function runScramble(el, text, speed, onDone, onTick) {
-  let phase = 'phase1';
-  let step = 0;
-  let timer = null;
+  const phase1Steps = text.length * 2;
+  const phase2Steps = text.length * 2;
+  let startTime = null;
+  let lastStep = -1;
 
   function finish() {
     el.textContent = text;
-    clearInterval(timer);
     if (onTick) onTick(text.length);
     onDone();
   }
 
-  function tickPhase1() {
-    const maxSteps = text.length * 2;
+  function renderPhase1(step) {
     const currentLength = Math.min(step + 1, text.length);
     const chars = [];
     for (let i = 0; i < currentLength; i++) {
@@ -36,14 +35,9 @@ function runScramble(el, text, speed, onDone, onTick) {
     for (let i = currentLength; i < text.length; i++) chars.push(' ');
     el.textContent = chars.join('');
     if (onTick) onTick(0);
-    if (step < maxSteps - 1) step += 1;
-    else {
-      phase = 'phase2';
-      step = 0;
-    }
   }
 
-  function tickPhase2() {
+  function renderPhase2(step) {
     const revealedCount = Math.floor(step / 2);
     const chars = [];
     for (let i = 0; i < revealedCount && i < text.length; i++) chars.push(text[i]);
@@ -53,15 +47,26 @@ function runScramble(el, text, speed, onDone, onTick) {
     for (let i = chars.length; i < text.length; i++) chars.push(getScrambleChar());
     el.textContent = chars.join('');
     if (onTick) onTick(revealedCount);
-    if (step < text.length * 2 - 1) step += 1;
-    else finish();
   }
 
   el.textContent = ' '.repeat(text.length);
-  timer = setInterval(() => {
-    if (phase === 'phase1') tickPhase1();
-    else tickPhase2();
-  }, speed);
+
+  function frame(now) {
+    if (startTime === null) startTime = now;
+    const totalStep = Math.floor((now - startTime) / speed);
+
+    if (totalStep >= phase1Steps + phase2Steps) {
+      finish();
+      return;
+    }
+    if (totalStep !== lastStep) {
+      lastStep = totalStep;
+      if (totalStep < phase1Steps) renderPhase1(totalStep);
+      else renderPhase2(totalStep - phase1Steps);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 }
 
 function setupIntroScramble() {
@@ -203,6 +208,7 @@ function setupShowcaseCarousel(root, autoMs) {
       }
       if (i === currentIndex) {
         card.classList.toggle('flipped');
+        startAuto();
         return;
       }
       goTo(i);
@@ -290,7 +296,7 @@ function setupShowcaseCarousel(root, autoMs) {
   });
 }
 
-document.querySelectorAll('.suspect-showcase').forEach((root) => setupShowcaseCarousel(root, 4000));
+document.querySelectorAll('.suspect-showcase').forEach((root) => setupShowcaseCarousel(root, 5000));
 
 function setupTextReveal() {
   const el = document.querySelector('.reveal-text');

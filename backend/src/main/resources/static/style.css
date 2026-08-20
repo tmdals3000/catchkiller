@@ -59,7 +59,7 @@
 @font-face { font-family: 'Chosun Centennial'; src: url('fonts/ChosunCentennial.ttf') format('truetype'); font-display: swap; }
 
 :root {
-  --bg: #242424;
+  --bg: #1e1f21;
   --accent: #e9c67d;
   --accent2: #c69a5a;
   --accent-deep: #8a6a34;
@@ -320,10 +320,10 @@ body.intro-revealed .hero-card-title {
 .shimmer-cta {
   --spread: 90deg;
   --shimmer-color: #ffffff;
-  --radius: 100px;
+  --radius: 4px;
   --speed: 3s;
   --cut: 0.05em;
-  --bg: #161616;
+  --bg: #333333;
   position: relative;
   z-index: 0;
   display: inline-flex;
@@ -557,6 +557,7 @@ body.intro-revealed .hero-card-title {
   -webkit-backface-visibility: hidden;
   border: 1px solid var(--line);
   box-shadow: 0 16px 32px rgba(0, 0, 0, .4);
+  background: var(--panel2);
 }
 .suspects-only .suspect-showcase-front,
 .suspects-only .suspect-showcase-back {
@@ -596,7 +597,17 @@ body.intro-revealed .hero-card-title {
   height: 100%;
   object-fit: cover;
   transform: scaleX(-1);
-  opacity: .15;
+  opacity: .85;
+}
+.suspects-section:not(.suspects-only) .suspect-showcase-back-img {
+  opacity: .4;
+}
+
+.img-shift-up {
+  transform: translateY(-6%);
+}
+.suspect-showcase-back-img.img-shift-up {
+  transform: scaleX(-1) translateY(-6%);
 }
 
 .suspect-showcase-back-content {
@@ -607,11 +618,11 @@ body.intro-revealed .hero-card-title {
   display: flex;
   flex-direction: column;
 }
-.suspect-showcase-back-content .suspect-showcase-name { font-size: 18px; }
+.suspect-showcase-back-content .suspect-showcase-name { font-size: 18px; text-shadow: 0 1px 5px rgba(0, 0, 0, .9); }
 .suspect-showcase-back-content .back-rule { height: 1px; background: var(--line); margin: 9px 0 12px; }
-.suspect-showcase-back-content .back-label { font-size: 9px; letter-spacing: 1px; color: #fff; }
-.suspect-showcase-back-content .back-text { font-size: 13px; line-height: 1.45; color: var(--ink-soft); margin: 3px 0 12px; }
-.suspect-showcase-back-content .back-motive { font-weight: 500; font-size: 13px; line-height: 1.45; color: #fff; }
+.suspect-showcase-back-content .back-label { font-size: 9px; letter-spacing: 1px; color: #fff; text-shadow: 0 1px 5px rgba(0, 0, 0, .9); }
+.suspect-showcase-back-content .back-text { font-size: 13px; line-height: 1.45; color: var(--ink-soft); margin: 3px 0 12px; text-shadow: 0 1px 5px rgba(0, 0, 0, .9); }
+.suspect-showcase-back-content .back-motive { font-weight: 500; font-size: 13px; line-height: 1.45; color: #fff; text-shadow: 0 1px 5px rgba(0, 0, 0, .9); }
 
 .suspect-showcase-nav {
   position: absolute;
