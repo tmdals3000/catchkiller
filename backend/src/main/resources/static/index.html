@@ -35,28 +35,68 @@
 
 <section class="hero-card-section">
   <div class="hero-card">
-    <img src="posters/nugu.jpg" alt="세종극회 — 누가누구" class="hero-card-img">
+    <img src="posters/catchkiller.jpg" alt="세종극회 — 캐치킬러" class="hero-card-img">
     <div class="hero-card-scrim" aria-hidden="true"></div>
     <div class="hero-card-text">
       <div class="hero-card-sub">세종극회</div>
       <div class="hero-card-title">NEW DRAMA</div>
     </div>
   </div>
-  <a href="https://linktr.ee/sejongxdrama" target="_blank" rel="noopener" class="shimmer-cta">
-    <span class="shimmer-cta-spark" aria-hidden="true">
-      <span class="shimmer-cta-spark-inner">
-        <span class="shimmer-cta-spark-before"></span>
-      </span>
-    </span>
-    <span class="shimmer-cta-label">예매하기</span>
-    <span class="shimmer-cta-highlight" aria-hidden="true"></span>
-    <span class="shimmer-cta-backdrop" aria-hidden="true"></span>
-  </a>
+  <div class="ticket-cta-wrap hero-cta-row">
+    <button type="button" class="cast-schedule-cta" id="castScheduleBtn">캐스팅 일정</button>
+    <a href="https://linktr.ee/sejongxdrama" target="_blank" rel="noopener" class="ticket-cta hero-ticket-cta">예매하기</a>
+  </div>
   <div class="zoom-scroll-cue" aria-hidden="true">
     <div class="zoom-scroll-text">SCROLL DOWN</div>
     <div>↓</div>
   </div>
 </section>
+
+<div class="cast-schedule-modal" id="castScheduleModal" aria-hidden="true">
+  <div class="cast-schedule-backdrop" id="castScheduleBackdrop"></div>
+  <div class="cast-schedule-panel" role="dialog" aria-modal="true" aria-label="캐스팅 일정">
+    <button type="button" class="cast-schedule-close" id="castScheduleClose" aria-label="닫기">&times;</button>
+    <h3 class="cast-schedule-title">CAST SCHEDULE</h3>
+    <div class="cast-schedule-table-wrap">
+      <table class="cast-schedule-table">
+        <thead>
+          <tr>
+            <th>날짜</th><th>요일</th><th>시간</th>
+            <th>백서빈</th><th>장은우</th><th>최은영</th>
+            <th>최준영</th><th>이채린</th><th>차승협</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="sched-date">9.8</td><td class="sched-date">화</td><td>19:30</td>
+            <td>–</td><td>–</td><td>정유림</td><td>소준석</td><td>최서윤</td><td>박찬영</td>
+          </tr>
+          <tr>
+            <td class="sched-date">9.9</td><td class="sched-date">수</td><td>19:30</td>
+            <td>–</td><td>–</td><td>정유림</td><td>소준석</td><td>최서윤</td><td>박찬영</td>
+          </tr>
+          <tr>
+            <td class="sched-date">9.10</td><td class="sched-date">목</td><td>19:30</td>
+            <td>–</td><td>–</td><td>정유림</td><td>소준석</td><td>최서윤</td><td>박찬영</td>
+          </tr>
+          <tr>
+            <td class="sched-date">9.11</td><td class="sched-date">금</td><td>19:30</td>
+            <td>–</td><td>–</td><td>정유림</td><td>소준석</td><td>최서윤</td><td>박찬영</td>
+          </tr>
+          <tr>
+            <td class="sched-date" rowspan="2">9.12</td><td class="sched-date" rowspan="2">토</td><td>14:00</td>
+            <td>–</td><td>–</td><td>정유림</td><td>소준석</td><td>최서윤</td><td>박찬영</td>
+          </tr>
+          <tr>
+            <td>19:00</td>
+            <td>–</td><td>–</td><td>정유림</td><td>소준석</td><td>최서윤</td><td>박찬영</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cast-schedule-note">연출<br><span class="cast-schedule-note-name">황현문</span></p>
+  </div>
+</div>
 
 <section class="splash">
   <div class="hero-tag">CONFIDENTIAL · 미제사건 · 2026</div>
@@ -341,11 +381,11 @@
   <section id="info" class="info-section">
     <div class="section-head"><span class="section-label">INFORMATION · 공연 정보</span><span class="section-rule"></span></div>
     <div class="info-grid">
-      <div class="info-cell"><div class="info-k">DATE · 일시</div><div class="info-v">2026.09.08 – 09.12</div></div>
+      <div class="info-cell"><div class="info-k">DATE · 일시</div><div class="info-v">9.8 – 9.11 19:30<br>9.12 14:00 · 19:00</div></div>
       <div class="info-cell"><div class="info-k">VENUE · 장소</div><div class="info-v">세종극회 소극장</div></div>
-      <div class="info-cell"><div class="info-k">RUNTIME · 시간</div><div class="info-v">90분</div></div>
+      <div class="info-cell"><div class="info-k">RUNTIME · 시간</div><div class="info-v">100분</div></div>
       <div class="info-cell"><div class="info-k">RATING · 등급</div><div class="info-v">전체 이용가</div></div>
-      <div class="info-cell"><div class="info-k">TICKET · 티켓</div><div class="info-v">전석 5,000원</div></div>
+      <div class="info-cell"><div class="info-k">TICKET · 티켓</div><div class="info-v">6,000원</div></div>
     </div>
     <div class="ticket-cta-wrap"><a href="https://linktr.ee/sejongxdrama" target="_blank" rel="noopener" class="ticket-cta">예매하기</a></div>
   </section>
@@ -358,6 +398,16 @@
       <p class="troupe-desc">《캐치킬러》는 세종극회의 제 90회 여름 정기공연으로, 관객이 직접 사건을 추리하고 범인을 지목하는 참여형 추리극입니다.</p>
     </div>
   </section>
+
+  <footer class="site-footer">
+    <div class="site-footer-left">
+      <p>© 2026 세종극회</p>
+      <p>SINCE 1979</p>
+    </div>
+    <a href="https://www.instagram.com/catch_killer_26/" target="_blank" rel="noopener" class="site-footer-ig">
+      <img src="instagram-wordmark.svg" alt="Instagram" class="site-footer-ig-img">
+    </a>
+  </footer>
 
 </div>
 

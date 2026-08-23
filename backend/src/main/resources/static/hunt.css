@@ -13,7 +13,7 @@
 }
 
 body {
-  background: radial-gradient(ellipse 70% 50% at 50% 24%, rgba(60, 50, 40, .22), transparent 62%), #050505;
+  background: radial-gradient(ellipse 70% 50% at 50% 24%, rgba(60, 50, 40, .22), transparent 62%), #1e1f21;
   font-family: 'Independent', 'Gungsuh', 'GungsuhChe', '바탕', Georgia, serif;
 }
 
@@ -48,6 +48,9 @@ body {
   display: flex;
   gap: 16px;
   width: max-content;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
   animation: hunt-marquee-scroll 22s linear infinite;
 }
 

@@ -159,6 +159,28 @@ if (hamburger && dropdownMenu) {
   });
 }
 
+const castScheduleBtn = document.getElementById('castScheduleBtn');
+const castScheduleModal = document.getElementById('castScheduleModal');
+const castScheduleClose = document.getElementById('castScheduleClose');
+const castScheduleBackdrop = document.getElementById('castScheduleBackdrop');
+
+if (castScheduleBtn && castScheduleModal) {
+  function openCastSchedule() {
+    castScheduleModal.classList.add('open');
+    castScheduleModal.setAttribute('aria-hidden', 'false');
+  }
+  function closeCastSchedule() {
+    castScheduleModal.classList.remove('open');
+    castScheduleModal.setAttribute('aria-hidden', 'true');
+  }
+  castScheduleBtn.addEventListener('click', openCastSchedule);
+  if (castScheduleClose) castScheduleClose.addEventListener('click', closeCastSchedule);
+  if (castScheduleBackdrop) castScheduleBackdrop.addEventListener('click', closeCastSchedule);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeCastSchedule();
+  });
+}
+
 function setupShowcaseCarousel(root, autoMs) {
   const cards = Array.from(root.querySelectorAll('.suspect-showcase-card'));
   const total = cards.length;
@@ -256,10 +278,26 @@ function setupShowcaseCarousel(root, autoMs) {
       dragging = false;
       const dx = e.clientX - startX;
       const dy = e.clientY - startY;
+
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
         suppressClick = true;
         dx < 0 ? next() : prev();
         startAuto();
+        setTimeout(() => { suppressClick = false; }, 300);
+        return;
+      }
+
+      const target = e.target.closest && e.target.closest('.suspect-showcase-card');
+      const i = target ? cards.indexOf(target) : -1;
+      if (i !== -1) {
+        suppressClick = true;
+        if (i === currentIndex) {
+          target.classList.toggle('flipped');
+        } else {
+          goTo(i);
+        }
+        startAuto();
+        setTimeout(() => { suppressClick = false; }, 300);
       }
     });
 
@@ -304,33 +342,39 @@ function setupTextReveal() {
 
   const original = el.textContent;
   el.textContent = '';
-  const chars = [];
   const accentStart = original.indexOf('용의자');
   const accentEnd = accentStart === -1 ? -1 : accentStart + '용의자'.length;
-  Array.from(original).forEach((ch, i) => {
+  let i = 0;
+  Array.from(original).forEach((ch, rawIndex) => {
     if (ch === ' ') {
       el.appendChild(document.createTextNode(' '));
       return;
     }
+    const danger = rawIndex >= accentStart && rawIndex < accentEnd;
     const span = document.createElement('span');
-    span.className = 'reveal-char' + (i >= accentStart && i < accentEnd ? ' reveal-char-danger' : '');
+    span.className = 'reveal-char' + (danger ? ' reveal-char-danger' : '');
     span.textContent = ch;
+    span.style.animationDelay = (i * 0.03) + 's';
     el.appendChild(span);
-    chars.push(span);
+    i += 1;
   });
 
+  let triggered = false;
   let ticking = false;
   function update() {
     ticking = false;
+    if (triggered) return;
     const rect = el.getBoundingClientRect();
-    const start = window.innerHeight * 0.7;
+    const start = window.innerHeight * 0.8;
     const end = start - window.innerHeight * 0.18;
     const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
 
-    chars.forEach((span) => {
-      span.style.opacity = String(progress);
-      span.style.transform = `translateY(${10 * (1 - progress)}px)`;
-    });
+    if (progress > 0) {
+      triggered = true;
+      el.classList.add('revealed');
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    }
   }
 
   function onScroll() {
@@ -442,7 +486,7 @@ function render() {
     el.querySelector('.pct-count').textContent = '??표';
   });
 
-  voteFooterLeft.textContent = voted ? `TOTAL ${total} VOTES` : '투표 후 실시간 현황이 공개됩니다';
+  voteFooterLeft.textContent = voted ? 'total ??? votes' : '투표 후 실시간 현황이 공개됩니다';
 
   if (voted) {
     const me = SUSPECTS.find((s) => s.id === myVote);

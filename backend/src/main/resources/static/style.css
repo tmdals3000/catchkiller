@@ -103,7 +103,7 @@
 }
 .intro-text {
   display: inline-flex;
-  font-family: 'NostalgicPoliceVibe', 'Courier New', Courier, monospace;
+  font-family: 'Chosun Centennial', 'Songam', Georgia, serif;
   font-weight: 700;
   font-size: clamp(28px, 8vw, 56px);
   letter-spacing: .1em;
@@ -276,7 +276,7 @@ body.intro-revealed .hero-card {
   position: absolute;
   left: 26px;
   right: 26px;
-  bottom: 16px;
+  bottom: 6px;
   color: #fff;
 }
 
@@ -317,112 +317,179 @@ body.intro-revealed .hero-card-title {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.shimmer-cta {
-  --spread: 90deg;
-  --shimmer-color: #ffffff;
-  --radius: 4px;
-  --speed: 3s;
-  --cut: 0.05em;
-  --bg: #333333;
-  position: relative;
-  z-index: 0;
-  display: inline-flex;
+.hero-card-section .ticket-cta-wrap {
+  margin-top: 44px;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+body.intro-revealed .hero-card-section .ticket-cta-wrap {
+  animation: hero-card-cta-in .8s ease-in-out .8s both;
+}
+
+@keyframes hero-card-cta-in {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.hero-ticket-cta {
+  border-radius: 999px;
+}
+
+.cast-schedule-cta {
+  display: inline-block;
+  background: #798a73;
+  color: #fff;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 6px;
+  padding: 18px 64px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .45);
+  font-family: 'Chosun Centennial', 'Songam', Georgia, serif;
+  transition: filter .2s;
+}
+.cast-schedule-cta:hover { filter: brightness(1.1); }
+
+.ticket-cta.hero-ticket-cta {
+  font-size: 22px;
+}
+
+.hero-ticket-cta,
+.cast-schedule-cta {
+  width: 264px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.cast-schedule-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 14px 36px;
-  border: 1px solid rgba(255, 255, 255, .15);
-  border-radius: var(--radius);
-  background: var(--bg);
-  text-decoration: none;
-  cursor: pointer;
-  transform: translateZ(0);
-  transition: transform .3s ease-in-out;
+  padding: clamp(16px, 5vw, 30px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+.cast-schedule-modal.open {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.hero-card-section .shimmer-cta {
-  margin-top: 44px;
+.cast-schedule-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .7);
 }
 
-.shimmer-cta:active {
-  transform: translateY(1px);
-}
-
-.shimmer-cta-label {
+.cast-schedule-panel {
   position: relative;
   z-index: 1;
-  font-size: 15px;
+  width: 100%;
+  max-width: 1560px;
+  max-height: 94vh;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 64px 56px;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .5);
+  transform: translateY(16px);
+  transition: transform .25s ease;
+}
+.cast-schedule-modal.open .cast-schedule-panel {
+  transform: translateY(0);
+}
+
+.cast-schedule-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.cast-schedule-close:hover { color: #fff; }
+
+.cast-schedule-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--danger2);
+  margin-bottom: 24px;
+}
+
+.cast-schedule-table-wrap {
+  overflow-x: auto;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin: 0 -56px;
+}
+
+.cast-schedule-table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.cast-schedule-table th,
+.cast-schedule-table td {
+  padding: 7px 9px;
+  border-bottom: 1px solid var(--line2);
+  text-align: center;
+}
+
+.cast-schedule-table thead th {
+  background: var(--danger);
+  color: #f3e7cf;
   font-weight: 700;
-  letter-spacing: .04em;
-  color: #fff;
+  letter-spacing: 1px;
+  border-bottom: none;
 }
 
-.shimmer-cta-spark {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  overflow: visible;
-  filter: blur(2px);
-  container-type: size;
+.cast-schedule-table tbody td.sched-date {
+  color: var(--accent);
+  font-weight: 700;
 }
 
-.shimmer-cta-spark-inner {
-  position: absolute;
-  inset: 0;
-  height: 100cqh;
-  aspect-ratio: 1;
-  animation: shimmer-slide var(--speed) ease-in-out infinite alternate;
+.cast-schedule-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
-.shimmer-cta-spark-before {
-  position: absolute;
-  inset: -100%;
-  width: auto;
-  rotate: 0deg;
-  background: conic-gradient(from calc(270deg - (var(--spread) * .5)), transparent 0, var(--shimmer-color) var(--spread), transparent var(--spread));
-  animation: spin-around calc(var(--speed) * 2) infinite linear;
+.cast-schedule-note {
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--ink-dim);
 }
-
-.shimmer-cta-highlight {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  box-shadow: inset 0 -8px 10px rgba(255, 255, 255, .12);
-  transition: box-shadow .3s ease-in-out;
-}
-
-.shimmer-cta:hover .shimmer-cta-highlight {
-  box-shadow: inset 0 -6px 10px rgba(255, 255, 255, .25);
-}
-
-.shimmer-cta:active .shimmer-cta-highlight {
-  box-shadow: inset 0 -10px 10px rgba(255, 255, 255, .25);
-}
-
-.shimmer-cta-backdrop {
-  position: absolute;
-  z-index: -1;
-  inset: var(--cut);
-  background: var(--bg);
-  border-radius: var(--radius);
-}
-
-@keyframes shimmer-slide {
-  to { transform: translate(calc(100cqw - 100%), 0); }
-}
-
-@keyframes spin-around {
-  0% { transform: translateZ(0) rotate(0); }
-  15%, 35% { transform: translateZ(0) rotate(90deg); }
-  65%, 85% { transform: translateZ(0) rotate(270deg); }
-  100% { transform: translateZ(0) rotate(360deg); }
+.cast-schedule-note-name {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
 }
 
 .zoom-scroll-cue {
-  margin-top: 28px;
+  margin-top: 44px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -432,7 +499,7 @@ body.intro-revealed .hero-card-title {
 }
 
 .zoom-scroll-text {
-  font-family: 'JeongseonArirangRoot', 'Playfair Display', serif;
+  font-family: 'Chosun Centennial', 'Songam', Georgia, serif;
   font-weight: 800;
   font-size: 14px;
   letter-spacing: .1em;
@@ -460,7 +527,7 @@ body.intro-revealed .hero-card-title {
 .rule .line { flex: 1; height: 2px; background: linear-gradient(90deg, var(--accent-deep), var(--accent2), var(--accent-deep)); }
 
 .hero-title {
-  font-family: 'NostalgicPoliceVibe', 'Playfair Display', serif;
+  font-family: 'Chosun Centennial', 'Songam', Georgia, serif;
   font-weight: 800;
   font-size: clamp(32px, 9vw, 74px);
   line-height: 1;
@@ -474,21 +541,33 @@ body.intro-revealed .hero-card-title {
 }
 
 .hero-star { font-size: clamp(16px, 4vw, 30px); color: #fff; letter-spacing: 0; }
-.hero-kr { font-family: 'Shilla Culture Medium', 'Chosun Centennial', sans-serif; font-size: clamp(28px, 8vw, 46px); color: var(--ink); margin-top: 18px; }
+.hero-kr { font-family: 'Chosun Centennial', 'Songam', Georgia, serif; font-size: clamp(28px, 8vw, 46px); color: var(--ink); margin-top: 18px; }
 .hero-meta { font-size: 13px; color: var(--ink-dim); letter-spacing: 3px; margin-top: 6px; }
 .hero-lead { font-weight: 500; font-size: clamp(16px, 4.5vw, 21px); line-height: 1.6; color: var(--ink-soft); margin: 154px auto 65px; max-width: 520px; }
 .accent-text { color: #fff; }
-.hero-emphasis-font { font-family: 'SolmoeKimDaegeon', 'Chosun Centennial', 'Songam', Georgia, serif; font-weight: 700; font-size: clamp(20px, 5.5vw, 27px); }
+.hero-emphasis-font { font-family: 'Chosun Centennial', 'Songam', Georgia, serif; font-weight: 700; font-size: clamp(20px, 5.5vw, 27px); }
 
 .reveal-char {
   display: inline-block;
-  opacity: 0;
-  transform: translateY(10px);
+  vertical-align: top;
   color: #fff;
+  opacity: 0;
+  filter: blur(10px) brightness(0%);
+  transform: translateZ(0);
+  will-change: opacity, filter;
+  backface-visibility: hidden;
+}
+.reveal-text.revealed .reveal-char {
+  animation: reveal-char-in .7s ease-out forwards;
 }
 
-.reveal-char-danger {
+.reveal-char.reveal-char-danger {
   text-shadow: 0 4px 10px rgba(60, 10, 10, .75);
+}
+
+@keyframes reveal-char-in {
+  from { opacity: 0; filter: blur(10px) brightness(0%); }
+  to { opacity: 1; filter: blur(0px) brightness(100%); }
 }
 
 /* ---------- section heads ---------- */
@@ -710,7 +789,7 @@ body.intro-revealed .hero-card-title {
 }
 
 .ballot-pct { width: 98px; flex: none; text-align: right; }
-.pct-line { font-family: 'Cinzel', serif; font-weight: 700; font-size: 20px; color: var(--ink-soft); }
+.pct-line { font-family: 'Chosun Centennial', 'Songam', Georgia, serif; font-weight: 700; font-size: 20px; color: var(--ink-soft); }
 .pct-unit { font-size: 12px; }
 .pct-count { font-size: 10px; color: var(--ink-dim); margin-top: 2px; }
 
@@ -777,12 +856,12 @@ body.intro-revealed .hero-card-title {
 .ticket-cta-wrap { display: flex; justify-content: center; margin-top: 28px; }
 .ticket-cta {
   display: inline-block;
-  background: linear-gradient(#d8ad63, #b8894a);
+  background: #e0dac9;
   color: #2a1410;
   font-weight: 700;
-  font-size: 16px;
-  letter-spacing: 4px;
-  padding: 16px 56px;
+  font-size: 20px;
+  letter-spacing: 6px;
+  padding: 18px 64px;
   cursor: pointer;
   box-shadow: 0 8px 22px rgba(0, 0, 0, .45);
   text-decoration: none;
@@ -803,6 +882,29 @@ body.intro-revealed .hero-card-title {
 .troupe-name { font-weight: 800; font-size: 22px; color: var(--ink); }
 .troupe-en { font-size: 11px; letter-spacing: 2px; color: var(--ink-dim); margin-top: 4px; }
 .troupe-desc { font-size: 15px; line-height: 1.75; color: var(--ink-soft); margin-top: 14px; max-width: 560px; }
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  margin-top: 48px;
+  padding: 0 0 8px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--ink-dim);
+}
+.site-footer-left p { margin: 0 0 6px; }
+.site-footer-left p:last-child { margin-bottom: 0; }
+
+.site-footer-ig-img {
+  height: 22px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: .7;
+  transition: opacity .15s;
+}
+.site-footer-ig:hover .site-footer-ig-img { opacity: 1; }
 
 /* ---------- responsive ---------- */
 
@@ -838,6 +940,19 @@ body.intro-revealed .hero-card-title {
   .ballot-bar { order: 3; flex-basis: 100%; }
 
   .cta-btn { font-size: 16px; letter-spacing: 4px; padding: 15px 36px; }
+  .ticket-cta { font-size: 16px; letter-spacing: 4px; padding: 15px 36px; }
+  .cast-schedule-cta { font-size: 16px; letter-spacing: 4px; padding: 15px 36px; }
+  .hero-ticket-cta,
+  .cast-schedule-cta {
+    width: 140px;
+    padding: 12px 8px;
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+  .ticket-cta.hero-ticket-cta {
+    font-size: 15px;
+  }
+  .hero-cta-row { gap: 20px; flex-wrap: nowrap; }
 
   .info-grid { grid-template-columns: 1fr; }
 
