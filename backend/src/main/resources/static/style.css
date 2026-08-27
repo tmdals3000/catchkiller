@@ -109,7 +109,7 @@
 }
 .intro-text {
   display: inline-flex;
-  font-family: 'ChosunIlboMyungjo', 'Chosun Centennial', 'Songam', Georgia, serif;
+  font-family: 'Chosun Centennial', 'Songam', Georgia, serif;
   font-weight: 700;
   font-size: clamp(28px, 8vw, 56px);
   letter-spacing: .1em;
@@ -533,7 +533,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 .rule .line { flex: 1; height: 2px; background: linear-gradient(90deg, var(--accent-deep), var(--accent2), var(--accent-deep)); }
 
 .hero-title {
-  font-family: 'Chosun Centennial', 'Songam', Georgia, serif;
+  font-family: 'ChosunIlboMyungjo', 'Chosun Centennial', 'Songam', Georgia, serif;
   font-weight: 800;
   font-size: clamp(32px, 9vw, 74px);
   line-height: 1;
