@@ -14,6 +14,10 @@ backend/run.log
 **/*.local
 **/dev-out.log
 **/dev-err.log
+**/vite.log
 **/.env
 **/.env.*
 npm-debug.log*
+
+# Vercel
+.vercel

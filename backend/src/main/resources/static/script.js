@@ -127,9 +127,13 @@ const SUSPECTS = [
 ];
 
 const KEY_MYVOTE = 'catchkiller_myvote';
-const API_VOTES = '/api/votes';
 
-let votes = { a: 0, b: 0, c: 0 };
+// No vote server: the tally lives only in the browser. Start from a fixed
+// baseline so the bars read like a real poll, then fold in this visitor's own
+// pick locally. Nothing is sent anywhere and no data is collected.
+const BASELINE_VOTES = { a: 43, b: 58, c: 36 };
+
+let votes = { ...BASELINE_VOTES };
 let myVote = localStorage.getItem(KEY_MYVOTE) || null;
 let selected = myVote;
 
@@ -415,7 +419,7 @@ function resetBarsForRefill() {
   });
 }
 
-voteBtn.addEventListener('click', async () => {
+voteBtn.addEventListener('click', () => {
   if (!selected) {
     document.querySelector('.ballots').classList.remove('nudge');
     voteBtn.classList.remove('shake');
@@ -428,25 +432,18 @@ voteBtn.addEventListener('click', async () => {
   }
   if (selected === myVote) return;
   voteBtn.disabled = true;
-  try {
-    const res = await fetch(API_VOTES, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ suspectId: selected, previousSuspectId: myVote }),
-    });
-    if (!res.ok) throw new Error(`vote failed: ${res.status}`);
-    const tally = await res.json();
-    votes = tally.votes;
-    myVote = selected;
-    localStorage.setItem(KEY_MYVOTE, myVote);
-    resetBarsForRefill();
-  } catch (err) {
-    console.error(err);
-    voteStatus.textContent = '투표 서버에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.';
-  } finally {
-    voteBtn.disabled = false;
-    render();
+
+  // Vote-changing, not vote-stacking: pull the previous pick back down first.
+  if (myVote && myVote !== selected) {
+    votes[myVote] = Math.max(0, (votes[myVote] || 0) - 1);
   }
+  votes[selected] = (votes[selected] || 0) + 1;
+  myVote = selected;
+  localStorage.setItem(KEY_MYVOTE, myVote);
+  resetBarsForRefill();
+
+  voteBtn.disabled = false;
+  render();
 });
 
 function render() {
@@ -506,12 +503,10 @@ function render() {
   voteBtn.textContent = voted ? (canCommit ? '투표 변경' : '투표 완료') : '투표하기';
 }
 
-async function init() {
-  try {
-    const res = await fetch(API_VOTES);
-    if (res.ok) votes = (await res.json()).votes;
-  } catch (err) {
-    console.error(err);
+function init() {
+  // Returning visitor who already voted: reflect their pick in the baseline.
+  if (myVote && votes[myVote] != null) {
+    votes[myVote] += 1;
   }
   render();
 }
