@@ -4,6 +4,25 @@ window.addEventListener('pageshow', (event) => {
   }
 });
 
+// Stabilize viewport-height sections (e.g. .splash) against in-app browser
+// chrome (KakaoTalk, Instagram, etc.) whose bottom bar slides in/out while
+// scrolling. Their WebViews often lack real support for `svh`, so `100vh`
+// silently falls back to the old, resize-on-toolbar-toggle behavior there.
+// Measuring innerHeight once and only re-measuring on a real width change
+// (rotation/resize) — never on a height-only change (toolbar show/hide) —
+// keeps --vh, and anything sized from it, from jumping around.
+function setStableVH() {
+  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+}
+setStableVH();
+let lastViewportWidth = window.innerWidth;
+window.addEventListener('resize', () => {
+  if (window.innerWidth !== lastViewportWidth) {
+    lastViewportWidth = window.innerWidth;
+    setStableVH();
+  }
+});
+
 const SCRAMBLE_CHARS = '_!X$0-+*#';
 
 function getScrambleChar(prevChar) {
