@@ -2,6 +2,19 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<script>
+// See index.html for why: KakaoTalk's in-app browser bottom nav bar can't be
+// pinned from the page side, so send visitors straight to the default browser.
+(function () {
+  var ua = navigator.userAgent || '';
+  if (!/kakaotalk/i.test(ua)) return;
+  var isIOS = /iphone|ipad|ipod/i.test(ua);
+  location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(location.href);
+  setTimeout(function () {
+    location.href = isIOS ? 'kakaoweb://closeBrowser' : 'kakaotalk://inappbrowser/close';
+  }, 800);
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>캐치킬러 — 범인을 찾아보세요</title>
 <link rel="stylesheet" href="hunt.css">
