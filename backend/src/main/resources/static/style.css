@@ -652,9 +652,9 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 }
 .donate-toss:hover { filter: brightness(.96); }
 
-.donate-toss-logo {
+.donate-toss-icon {
+  width: 20px;
   height: 20px;
-  width: auto;
   object-fit: contain;
   flex: none;
 }
