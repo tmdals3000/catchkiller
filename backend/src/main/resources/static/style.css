@@ -1057,6 +1057,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   font-size: 20px;
   letter-spacing: 6px;
   padding: 18px 64px;
+  border-radius: 999px;
   cursor: pointer;
   box-shadow: 0 8px 22px rgba(0, 0, 0, .45);
   text-decoration: none;
