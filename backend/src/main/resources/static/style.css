@@ -640,8 +640,8 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   justify-content: center;
   gap: 8px;
   width: 100%;
-  background: #0064ff;
-  color: #fff;
+  background: #fff;
+  color: #191f28;
   font-weight: 700;
   font-size: 15px;
   letter-spacing: 1px;
@@ -650,12 +650,12 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   text-decoration: none;
   transition: filter .2s;
 }
-.donate-toss:hover { filter: brightness(1.08); }
+.donate-toss:hover { filter: brightness(.96); }
 
 .donate-toss-icon {
-  width: 18px;
-  height: 18px;
-  fill: #fff;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
   flex: none;
 }
 
