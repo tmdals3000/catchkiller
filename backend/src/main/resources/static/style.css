@@ -591,6 +591,11 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 
 .synopsis-body { display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start; }
 .synopsis-text { flex: 2; min-width: 320px; font-size: 19px; line-height: 1.95; color: var(--ink-soft); }
+.synopsis-text strong {
+  font-weight: 700;
+  color: var(--ink);
+  -webkit-text-stroke: .6px currentColor;
+}
 
 /* ---------- suspects ---------- */
 
