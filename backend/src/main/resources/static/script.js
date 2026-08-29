@@ -204,14 +204,14 @@ if (castScheduleBtn && castScheduleModal) {
   });
 }
 
-const donateOpenBtn = document.getElementById('donateOpenBtn');
+const donateOpenBtns = document.querySelectorAll('.donate-link');
 const donateModal = document.getElementById('donateModal');
 const donateClose = document.getElementById('donateClose');
 const donateBackdrop = document.getElementById('donateBackdrop');
 const donateCopyBtn = document.getElementById('donateCopyBtn');
 const donateAccountText = document.getElementById('donateAccountText');
 
-if (donateOpenBtn && donateModal) {
+if (donateOpenBtns.length && donateModal) {
   function openDonate() {
     donateModal.classList.add('open');
     donateModal.setAttribute('aria-hidden', 'false');
@@ -220,7 +220,7 @@ if (donateOpenBtn && donateModal) {
     donateModal.classList.remove('open');
     donateModal.setAttribute('aria-hidden', 'true');
   }
-  donateOpenBtn.addEventListener('click', openDonate);
+  donateOpenBtns.forEach((btn) => btn.addEventListener('click', openDonate));
   if (donateClose) donateClose.addEventListener('click', closeDonate);
   if (donateBackdrop) donateBackdrop.addEventListener('click', closeDonate);
   document.addEventListener('keydown', (e) => {
