@@ -389,11 +389,29 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 }
 
 .hero-ticket-cta,
-.cast-schedule-cta {
+.cast-schedule-cta,
+.donate-cta {
   width: 264px;
   text-align: center;
   white-space: nowrap;
 }
+
+.donate-cta {
+  display: inline-block;
+  background: var(--accent);
+  color: #2a1410;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 6px;
+  padding: 18px 64px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .45);
+  font-family: inherit;
+  transition: filter .2s;
+}
+.donate-cta:hover { filter: brightness(1.1); }
 
 .cast-schedule-modal {
   position: fixed;
@@ -1030,6 +1048,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 .info-v { font-weight: 600; font-size: 17px; line-height: 1.4; color: var(--ink); margin-top: 8px; }
 
 .ticket-cta-wrap { display: flex; justify-content: center; margin-top: 28px; }
+.info-section .ticket-cta-wrap { gap: 16px; flex-wrap: wrap; }
 .ticket-cta {
   display: inline-block;
   background: #e0dac9;
@@ -1118,8 +1137,10 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   .cta-btn { font-size: 16px; letter-spacing: 4px; padding: 15px 36px; }
   .ticket-cta { font-size: 16px; letter-spacing: 4px; padding: 15px 36px; }
   .cast-schedule-cta { font-size: 16px; letter-spacing: 4px; padding: 15px 36px; }
+  .donate-cta { font-size: 16px; letter-spacing: 4px; padding: 15px 36px; }
   .hero-ticket-cta,
-  .cast-schedule-cta {
+  .cast-schedule-cta,
+  .donate-cta {
     width: 140px;
     padding: 12px 8px;
     font-size: 15px;
@@ -1129,6 +1150,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
     font-size: 15px;
   }
   .hero-cta-row { gap: 20px; flex-wrap: nowrap; }
+  .info-section .ticket-cta-wrap { gap: 12px; }
 
   .info-grid { grid-template-columns: 1fr; }
 

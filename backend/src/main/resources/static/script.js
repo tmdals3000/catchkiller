@@ -182,12 +182,12 @@ if (hamburger && dropdownMenu) {
   });
 }
 
-const castScheduleBtn = document.getElementById('castScheduleBtn');
+const castScheduleBtns = document.querySelectorAll('[data-cast-schedule-trigger]');
 const castScheduleModal = document.getElementById('castScheduleModal');
 const castScheduleClose = document.getElementById('castScheduleClose');
 const castScheduleBackdrop = document.getElementById('castScheduleBackdrop');
 
-if (castScheduleBtn && castScheduleModal) {
+if (castScheduleBtns.length && castScheduleModal) {
   function openCastSchedule() {
     castScheduleModal.classList.add('open');
     castScheduleModal.setAttribute('aria-hidden', 'false');
@@ -196,7 +196,7 @@ if (castScheduleBtn && castScheduleModal) {
     castScheduleModal.classList.remove('open');
     castScheduleModal.setAttribute('aria-hidden', 'true');
   }
-  castScheduleBtn.addEventListener('click', openCastSchedule);
+  castScheduleBtns.forEach((btn) => btn.addEventListener('click', openCastSchedule));
   if (castScheduleClose) castScheduleClose.addEventListener('click', closeCastSchedule);
   if (castScheduleBackdrop) castScheduleBackdrop.addEventListener('click', closeCastSchedule);
   document.addEventListener('keydown', (e) => {
