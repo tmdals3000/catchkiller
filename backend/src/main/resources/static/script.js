@@ -204,7 +204,7 @@ if (castScheduleBtn && castScheduleModal) {
   });
 }
 
-const donateOpenBtns = document.querySelectorAll('.donate-link');
+const donateOpenBtns = document.querySelectorAll('[data-donate-trigger]');
 const donateModal = document.getElementById('donateModal');
 const donateClose = document.getElementById('donateClose');
 const donateBackdrop = document.getElementById('donateBackdrop');

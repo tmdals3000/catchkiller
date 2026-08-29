@@ -240,6 +240,15 @@ body {
   transition: background .15s, color .15s;
 }
 .menu-link:hover { background: var(--panel2); color: #fff; }
+button.menu-link {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+}
 
 /* ---------- hero card ---------- */
 
@@ -1062,20 +1071,6 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 }
 .site-footer-left p { margin: 0 0 6px; }
 .site-footer-left p:last-child { margin-bottom: 0; }
-
-.site-footer-donate {
-  display: block;
-  margin-top: 6px;
-  background: none;
-  border: none;
-  padding: 0;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-  cursor: pointer;
-  text-align: left;
-}
-.site-footer-donate:hover { color: #fff; }
 
 .site-footer-ig-img {
   height: 22px;
