@@ -243,24 +243,6 @@ function setupShowcaseCarousel(root, autoMs) {
     render();
   }
 
-  let suppressClick = false;
-
-  cards.forEach((card, i) => {
-    card.addEventListener('click', () => {
-      if (suppressClick) {
-        suppressClick = false;
-        return;
-      }
-      if (i === currentIndex) {
-        card.classList.toggle('flipped');
-        startAuto();
-        return;
-      }
-      goTo(i);
-      startAuto();
-    });
-  });
-
   let timer = null;
   function stopAuto() {
     if (timer) {
@@ -303,24 +285,25 @@ function setupShowcaseCarousel(root, autoMs) {
       const dy = e.clientY - startY;
 
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-        suppressClick = true;
         dx < 0 ? next() : prev();
         startAuto();
-        setTimeout(() => { suppressClick = false; }, 300);
         return;
       }
 
-      const target = e.target.closest && e.target.closest('.suspect-showcase-card');
+      // Pointer capture (set on `stage` above) retargets e.target on
+      // subsequent pointer events to the capturing element itself, so
+      // e.target.closest(...) can't find the actual card underneath.
+      // Hit-test by coordinates instead, which ignores capture entirely.
+      const hit = document.elementFromPoint(e.clientX, e.clientY);
+      const target = hit && hit.closest && hit.closest('.suspect-showcase-card');
       const i = target ? cards.indexOf(target) : -1;
       if (i !== -1) {
-        suppressClick = true;
         if (i === currentIndex) {
           target.classList.toggle('flipped');
         } else {
           goTo(i);
         }
         startAuto();
-        setTimeout(() => { suppressClick = false; }, 300);
       }
     });
 
