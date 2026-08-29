@@ -204,6 +204,60 @@ if (castScheduleBtn && castScheduleModal) {
   });
 }
 
+const donateOpenBtn = document.getElementById('donateOpenBtn');
+const donateModal = document.getElementById('donateModal');
+const donateClose = document.getElementById('donateClose');
+const donateBackdrop = document.getElementById('donateBackdrop');
+const donateCopyBtn = document.getElementById('donateCopyBtn');
+const donateAccountText = document.getElementById('donateAccountText');
+
+if (donateOpenBtn && donateModal) {
+  function openDonate() {
+    donateModal.classList.add('open');
+    donateModal.setAttribute('aria-hidden', 'false');
+  }
+  function closeDonate() {
+    donateModal.classList.remove('open');
+    donateModal.setAttribute('aria-hidden', 'true');
+  }
+  donateOpenBtn.addEventListener('click', openDonate);
+  if (donateClose) donateClose.addEventListener('click', closeDonate);
+  if (donateBackdrop) donateBackdrop.addEventListener('click', closeDonate);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDonate();
+  });
+}
+
+if (donateCopyBtn && donateAccountText) {
+  donateCopyBtn.addEventListener('click', async () => {
+    const text = donateAccountText.textContent.trim();
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        temp.style.position = 'fixed';
+        temp.style.opacity = '0';
+        document.body.appendChild(temp);
+        temp.focus();
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+      }
+      donateCopyBtn.textContent = '복사됨';
+      donateCopyBtn.classList.add('copied');
+      setTimeout(() => {
+        donateCopyBtn.textContent = '복사';
+        donateCopyBtn.classList.remove('copied');
+      }, 1500);
+    } catch (err) {
+      donateCopyBtn.textContent = '복사 실패';
+      setTimeout(() => { donateCopyBtn.textContent = '복사'; }, 1500);
+    }
+  });
+}
+
 function setupShowcaseCarousel(root, autoMs) {
   const cards = Array.from(root.querySelectorAll('.suspect-showcase-card'));
   const total = cards.length;
