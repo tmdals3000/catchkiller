@@ -518,14 +518,15 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   background: none;
   border: none;
   padding: 0 0 4px;
-  font-family: 'Independent', 'Gungsuh', 'GungsuhChe', '바탕', Georgia, serif;
+  font-family: inherit;
   font-size: 13px;
   letter-spacing: 3px;
-  color: #7a6a4a;
+  color: var(--accent);
+  font-weight: 700;
   cursor: pointer;
-  border-bottom: 1px solid #3a3428;
+  border-bottom: 1px solid var(--accent-deep);
 }
-.donate-link:hover { color: #a89572; }
+.donate-link:hover { color: var(--accent2); }
 
 
 .donate-modal {
