@@ -458,34 +458,87 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 
 .cast-schedule-donate-text {
   position: relative;
+  z-index: 0;
   flex: none;
-  background: none;
-  border: 1px solid rgba(255, 255, 255, .6);
-  padding: 10px 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, .1);
+  background: #000;
+  border-radius: 100px;
+  padding: 12px 28px;
   font-family: inherit;
   font-size: 15.5px;
   letter-spacing: 2px;
   color: #fff;
   cursor: pointer;
+  transform: translateZ(0);
+  transition: transform .3s ease-in-out;
 }
-.cast-schedule-donate-text:hover { color: var(--accent); }
+.cast-schedule-donate-text:active { transform: translateY(1px); }
 
-.cast-schedule-donate-text::before {
+.shimmer-spark-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: -30;
+  overflow: visible;
+  filter: blur(2px);
+  container-type: size;
+}
+.shimmer-spark {
+  position: absolute;
+  inset: 0;
+  height: 100cqh;
+  aspect-ratio: 1;
+  border-radius: 0;
+  animation: cast-schedule-shimmer-slide 3s ease-in-out infinite alternate;
+}
+.shimmer-spark::before {
   content: '';
   position: absolute;
-  inset: -1px;
-  padding: 1.5px;
-  background: conic-gradient(from 0deg, transparent 0deg, transparent 270deg, #fff 320deg, transparent 360deg);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: cast-schedule-shimmer-spin 3s linear infinite;
-  pointer-events: none;
-  filter: drop-shadow(0 0 4px #fff);
+  inset: -100%;
+  width: auto;
+  transform: rotate(0deg);
+  background: conic-gradient(from 225deg, transparent 0, #fff 90deg, transparent 90deg);
+  animation: cast-schedule-spin-around 6s linear infinite;
 }
 
-@keyframes cast-schedule-shimmer-spin {
-  to { transform: rotate(360deg); }
+.shimmer-label {
+  position: relative;
+}
+
+.shimmer-highlight {
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  box-shadow: inset 0 -8px 10px rgba(255, 255, 255, .12);
+  transition: box-shadow .3s ease-in-out;
+}
+.cast-schedule-donate-text:hover .shimmer-highlight {
+  box-shadow: inset 0 -6px 10px rgba(255, 255, 255, .25);
+}
+.cast-schedule-donate-text:active .shimmer-highlight {
+  box-shadow: inset 0 -10px 10px rgba(255, 255, 255, .25);
+}
+
+.shimmer-backdrop {
+  position: absolute;
+  z-index: -20;
+  background: #000;
+  border-radius: 100px;
+  inset: .05em;
+}
+
+@keyframes cast-schedule-spin-around {
+  0% { transform: rotate(0deg); }
+  15%, 35% { transform: rotate(90deg); }
+  65%, 85% { transform: rotate(270deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes cast-schedule-shimmer-slide {
+  to { transform: translate(calc(100cqw - 100%), 0); }
 }
 
 .donate-link {
