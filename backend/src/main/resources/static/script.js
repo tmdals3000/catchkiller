@@ -185,7 +185,6 @@ if (hamburger && dropdownMenu) {
 const castScheduleBtns = document.querySelectorAll('[data-cast-schedule-trigger]');
 const castScheduleModal = document.getElementById('castScheduleModal');
 const castScheduleClose = document.getElementById('castScheduleClose');
-const castScheduleBackdrop = document.getElementById('castScheduleBackdrop');
 
 if (castScheduleBtns.length && castScheduleModal) {
   function openCastSchedule() {
@@ -197,8 +196,13 @@ if (castScheduleBtns.length && castScheduleModal) {
     castScheduleModal.setAttribute('aria-hidden', 'true');
   }
   castScheduleBtns.forEach((btn) => btn.addEventListener('click', openCastSchedule));
-  if (castScheduleClose) castScheduleClose.addEventListener('click', closeCastSchedule);
-  if (castScheduleBackdrop) castScheduleBackdrop.addEventListener('click', closeCastSchedule);
+  castScheduleModal.addEventListener('click', closeCastSchedule);
+  if (castScheduleClose) {
+    castScheduleClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeCastSchedule();
+    });
+  }
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeCastSchedule();
   });
