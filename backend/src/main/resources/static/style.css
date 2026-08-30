@@ -373,7 +373,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   background: #798a73;
   color: #fff;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 21px;
   letter-spacing: 6px;
   padding: 18px 64px;
   border: none;
@@ -386,7 +386,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 .cast-schedule-cta:hover { filter: brightness(1.1); }
 
 .ticket-cta.hero-ticket-cta {
-  font-size: 22px;
+  font-size: 21px;
 }
 
 .hero-ticket-cta,
@@ -1062,11 +1062,11 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   .cast-schedule-cta {
     width: 140px;
     padding: 12px 8px;
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 1px;
   }
   .ticket-cta.hero-ticket-cta {
-    font-size: 15px;
+    font-size: 14px;
   }
   .hero-cta-row { gap: 20px; flex-wrap: nowrap; }
 
