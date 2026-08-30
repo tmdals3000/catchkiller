@@ -479,13 +479,59 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 }
 .cast-schedule-donate-text:active { transform: translateY(1px); }
 
+/* LOCKED — 후원하기 button only. This is the exact ShimmerButton-derived
+   spark effect from when the background was removed and the rectangle
+   border was added. Do not touch when editing CAST/SUSPECTS card borders
+   (those use the separate .border-beam rules below) — this block stays as-is. */
+.shimmer-spark-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  filter: blur(1px);
+  container-type: size;
+  padding: 1.5px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.shimmer-spark {
+  position: absolute;
+  inset: 0;
+  height: 100cqh;
+  aspect-ratio: 1;
+  border-radius: 0;
+  animation: cast-schedule-shimmer-slide 3s ease-in-out infinite alternate;
+}
+.shimmer-spark::before {
+  content: '';
+  position: absolute;
+  inset: -100%;
+  width: auto;
+  transform: rotate(0deg);
+  background: conic-gradient(from 225deg, transparent 0, #fff 90deg, transparent 90deg);
+  animation: cast-schedule-spin-around 6s linear infinite;
+}
+
 .shimmer-label {
   position: relative;
 }
 
+@keyframes cast-schedule-spin-around {
+  0% { transform: rotate(0deg); }
+  15%, 35% { transform: rotate(90deg); }
+  65%, 85% { transform: rotate(270deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes cast-schedule-shimmer-slide {
+  to { transform: translate(calc(100cqw - 100%), 0); }
+}
+/* END LOCKED 후원하기 block */
+
 /* A small glowing dot traveling along the exact border path via offset-path.
    Unlike a rotating conic-gradient, this moves at a genuinely constant speed
-   on every straight edge and every corner — no easing, no stalls. */
+   on every straight edge and every corner — no easing, no stalls.
+   Used by CAST/SUSPECTS cards only — the 후원하기 button above uses its own
+   locked shimmer-spark effect and must never be switched to this. */
 .border-beam {
   position: absolute;
   top: 0;
@@ -512,21 +558,6 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 .suspect-showcase-back .border-beam {
   z-index: 3;
   offset-path: inset(0 round 20px);
-}
-
-/* 후원하기 button's beam is pinned here, independent of the base .border-beam
-   rule above. Card-only tweaks should change the base rule or the
-   .suspect-showcase-* overrides, never this block — this button is locked. */
-.cast-schedule-donate-text .border-beam {
-  width: 40px;
-  height: 6px;
-  background: linear-gradient(90deg, transparent, #fff 50%, transparent);
-  filter: blur(2px);
-  offset-path: inset(0 round 0px);
-  offset-distance: 0%;
-  offset-anchor: 50% 50%;
-  offset-rotate: auto;
-  animation: border-beam-travel 6s linear infinite;
 }
 
 .donate-link {
