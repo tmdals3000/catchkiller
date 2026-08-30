@@ -423,13 +423,13 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1560px;
+  max-width: 460px;
   max-height: 94vh;
   overflow-y: auto;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 64px 56px;
+  padding: 40px 32px;
   text-align: center;
   box-shadow: 0 24px 60px rgba(0, 0, 0, .5);
   transform: translateY(16px);
@@ -453,64 +453,11 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 }
 .cast-schedule-close:hover { color: #fff; }
 
-.cast-schedule-title {
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: 3px;
-  color: var(--danger2);
-  margin-bottom: 24px;
-}
-
-.cast-schedule-table-wrap {
-  overflow-x: auto;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  margin: 0 -56px;
-}
-
-.cast-schedule-table {
+.cast-schedule-img {
+  display: block;
   width: 100%;
-  min-width: 560px;
-  border-collapse: collapse;
-  font-size: 12.5px;
-  white-space: nowrap;
-}
-
-.cast-schedule-table th,
-.cast-schedule-table td {
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--line2);
-  text-align: center;
-}
-
-.cast-schedule-table thead th {
-  background: var(--danger);
-  color: #f3e7cf;
-  font-weight: 700;
-  letter-spacing: 1px;
-  border-bottom: none;
-}
-
-.cast-schedule-table tbody td.sched-date {
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.cast-schedule-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.cast-schedule-note {
-  margin-top: 44px;
-  font-size: 12px;
-  color: var(--ink-dim);
-}
-.cast-schedule-note-name {
-  display: inline-block;
-  margin-top: 4px;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--ink);
+  height: auto;
+  border-radius: 10px;
 }
 
 .donate-link {
