@@ -503,9 +503,11 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   position: absolute;
   inset: -100%;
   width: auto;
-  transform: rotate(0deg);
+  transform: translateZ(0) rotate(0deg);
   background: conic-gradient(from 225deg, transparent 0, #fff 90deg, transparent 90deg);
   animation: cast-schedule-spin-around 10s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .shimmer-label {
@@ -513,7 +515,25 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 }
 
 @keyframes cast-schedule-spin-around {
-  to { transform: rotate(360deg); }
+  to { transform: translateZ(0) rotate(360deg); }
+}
+
+/* The 후원하기 button keeps its own original stepped spin + slide timing,
+   independent of the smoother continuous spin used on the cards above. */
+.cast-schedule-donate-text .shimmer-spark {
+  animation: cast-schedule-donate-shimmer-slide 3s ease-in-out infinite alternate;
+}
+.cast-schedule-donate-text .shimmer-spark::before {
+  animation: cast-schedule-donate-spin-around 6s linear infinite;
+}
+@keyframes cast-schedule-donate-spin-around {
+  0% { transform: translateZ(0) rotate(0deg); }
+  15%, 35% { transform: translateZ(0) rotate(90deg); }
+  65%, 85% { transform: translateZ(0) rotate(270deg); }
+  100% { transform: translateZ(0) rotate(360deg); }
+}
+@keyframes cast-schedule-donate-shimmer-slide {
+  to { transform: translate(calc(100cqw - 100%), 0); }
 }
 
 .donate-link {
