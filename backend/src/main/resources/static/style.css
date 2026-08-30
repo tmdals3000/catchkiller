@@ -486,6 +486,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   filter: blur(1px);
   container-type: size;
   padding: 1.5px;
+  border-radius: inherit;
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -830,25 +831,9 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   border-width: 2px;
 }
 
-.suspect-showcase-front::before,
-.suspect-showcase-back::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  border-radius: inherit;
-  padding: 1.5px;
-  pointer-events: none;
-  filter: blur(1px);
-  background: conic-gradient(from 225deg, transparent 0, #fff 90deg, transparent 90deg);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: card-shimmer-spin 6s linear infinite;
-}
-
-@keyframes card-shimmer-spin {
-  to { transform: rotate(360deg); }
+.suspect-showcase-front .shimmer-spark-wrap,
+.suspect-showcase-back .shimmer-spark-wrap {
+  z-index: 3;
 }
 
 .suspect-showcase-back {
