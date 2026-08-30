@@ -465,9 +465,9 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   justify-content: center;
   overflow: hidden;
   white-space: nowrap;
-  border: 1px solid rgba(255, 255, 255, .1);
-  background: #000;
-  border-radius: 100px;
+  border: none;
+  background: none;
+  border-radius: 0;
   padding: 12px 28px;
   font-family: inherit;
   font-size: 15.5px;
@@ -482,10 +482,13 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 .shimmer-spark-wrap {
   position: absolute;
   inset: 0;
-  z-index: -30;
   overflow: visible;
-  filter: blur(2px);
+  filter: blur(1px);
   container-type: size;
+  padding: 1.5px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 .shimmer-spark {
   position: absolute;
@@ -507,28 +510,6 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 
 .shimmer-label {
   position: relative;
-}
-
-.shimmer-highlight {
-  position: absolute;
-  inset: 0;
-  border-radius: 100px;
-  box-shadow: inset 0 -8px 10px rgba(255, 255, 255, .12);
-  transition: box-shadow .3s ease-in-out;
-}
-.cast-schedule-donate-text:hover .shimmer-highlight {
-  box-shadow: inset 0 -6px 10px rgba(255, 255, 255, .25);
-}
-.cast-schedule-donate-text:active .shimmer-highlight {
-  box-shadow: inset 0 -10px 10px rgba(255, 255, 255, .25);
-}
-
-.shimmer-backdrop {
-  position: absolute;
-  z-index: -20;
-  background: #000;
-  border-radius: 100px;
-  inset: .05em;
 }
 
 @keyframes cast-schedule-spin-around {
