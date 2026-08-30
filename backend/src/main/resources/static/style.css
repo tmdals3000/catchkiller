@@ -419,9 +419,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   max-width: 100%;
-  height: 100%;
   max-height: 100%;
   gap: 40px;
   transform: translateY(24px);
@@ -430,8 +428,17 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 .cast-schedule-img {
   display: block;
   max-width: 100%;
-  flex: 0 1 auto;
-  min-height: 0;
+  /* Bounded directly off the viewport (not a percentage of an ancestor,
+     which needs a definite height to resolve and was the desktop-overflow
+     bug) so the frame stays auto-sized/shrink-wrapped around the photo —
+     keeping the close button, which is positioned against the frame's own
+     box, pinned to the photo's actual corner instead of floating off it
+     (this is what broke in Instagram's in-app browser last time). */
+  max-height: calc(100vh - clamp(12px, 4vw, 28px) * 2 - 96px);
+  max-height: calc(100dvh - clamp(12px, 4vw, 28px) * 2 - 96px);
+  flex-shrink: 0;
+  width: auto;
+  height: auto;
   object-fit: contain;
   border-radius: 14px;
   box-shadow: 0 24px 60px rgba(0, 0, 0, .6);
