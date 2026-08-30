@@ -421,7 +421,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   align-items: center;
   max-width: 100%;
   max-height: 100%;
-  gap: 14px;
+  gap: 40px;
 }
 
 .cast-schedule-img {
@@ -457,15 +457,15 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 .cast-schedule-donate-text {
   flex: none;
   background: none;
-  border: none;
-  padding: 0;
+  border: 1px solid rgba(255, 255, 255, .6);
+  padding: 10px 26px;
   font-family: inherit;
-  font-size: 13px;
+  font-size: 15.5px;
   letter-spacing: 2px;
   color: #fff;
   cursor: pointer;
 }
-.cast-schedule-donate-text:hover { color: var(--accent); }
+.cast-schedule-donate-text:hover { color: var(--accent); border-color: var(--accent); }
 
 .donate-link {
   display: inline-block;
