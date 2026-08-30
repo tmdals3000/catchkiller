@@ -465,7 +465,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   justify-content: center;
   overflow: hidden;
   white-space: nowrap;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, .6);
   background: none;
   border-radius: 0;
   padding: 12px 28px;
