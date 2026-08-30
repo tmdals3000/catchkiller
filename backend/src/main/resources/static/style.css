@@ -414,6 +414,13 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   pointer-events: auto;
 }
 
+.cast-schedule-frame {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  line-height: 0;
+}
+
 .cast-schedule-img {
   display: block;
   max-width: 100%;
@@ -426,9 +433,9 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 }
 
 .cast-schedule-close {
-  position: fixed;
-  top: 16px;
-  right: 16px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
   width: 36px;
   height: 36px;
   display: flex;
