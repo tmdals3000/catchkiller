@@ -497,7 +497,6 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   height: 100cqh;
   aspect-ratio: 1;
   border-radius: 0;
-  animation: cast-schedule-shimmer-slide 3s ease-in-out infinite alternate;
 }
 .shimmer-spark::before {
   content: '';
@@ -506,7 +505,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   width: auto;
   transform: rotate(0deg);
   background: conic-gradient(from 225deg, transparent 0, #fff 90deg, transparent 90deg);
-  animation: cast-schedule-spin-around 6s linear infinite;
+  animation: cast-schedule-spin-around 10s linear infinite;
 }
 
 .shimmer-label {
@@ -514,13 +513,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 }
 
 @keyframes cast-schedule-spin-around {
-  0% { transform: rotate(0deg); }
-  15%, 35% { transform: rotate(90deg); }
-  65%, 85% { transform: rotate(270deg); }
-  100% { transform: rotate(360deg); }
-}
-@keyframes cast-schedule-shimmer-slide {
-  to { transform: translate(calc(100cqw - 100%), 0); }
+  to { transform: rotate(360deg); }
 }
 
 .donate-link {
