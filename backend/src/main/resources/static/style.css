@@ -479,73 +479,8 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 }
 .cast-schedule-donate-text:active { transform: translateY(1px); }
 
-/* LOCKED — 후원하기 button only. Same look as the ShimmerButton version
-   (no background, thin rectangle border, blurred glow hugging the edge),
-   but the rotating conic-gradient + mask-ring that version used is
-   geometrically incapable of constant speed around a rectangle — it always
-   speeds up on the straight sides and eases at the corners. This drives
-   the glow along the button's own border path instead (offset-path), which
-   is provably constant-speed on any shape. Do not touch when editing
-   CAST/SUSPECTS card borders (those use the separate .border-beam rules
-   below, and must stay independent of this). */
 .shimmer-label {
   position: relative;
-}
-
-.donate-spark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 34px;
-  height: 6px;
-  background: linear-gradient(90deg, transparent, #fff 50%, transparent);
-  filter: blur(2px);
-  pointer-events: none;
-  offset-path: inset(0 round 0px);
-  offset-distance: 0%;
-  offset-anchor: 50% 50%;
-  offset-rotate: auto;
-  animation: donate-spark-travel 6s linear infinite;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-@keyframes donate-spark-travel {
-  to { offset-distance: 100%; }
-}
-/* END LOCKED 후원하기 block */
-
-/* A small glowing dot traveling along the exact border path via offset-path.
-   Unlike a rotating conic-gradient, this moves at a genuinely constant speed
-   on every straight edge and every corner — no easing, no stalls.
-   Used by CAST/SUSPECTS cards only — the 후원하기 button above uses its own
-   locked shimmer-spark effect and must never be switched to this. */
-.border-beam {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 6px;
-  background: linear-gradient(90deg, transparent, #fff 50%, transparent);
-  filter: blur(2px);
-  pointer-events: none;
-  offset-path: inset(0 round 0px);
-  offset-distance: 0%;
-  offset-anchor: 50% 50%;
-  offset-rotate: auto;
-  animation: border-beam-travel 6s linear infinite;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-@keyframes border-beam-travel {
-  to { offset-distance: 100%; }
-}
-
-.suspect-showcase-front .border-beam,
-.suspect-showcase-back .border-beam {
-  z-index: 3;
-  offset-path: inset(0 round 20px);
 }
 
 .donate-link {
