@@ -514,6 +514,21 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   offset-path: inset(0 round 20px);
 }
 
+/* 후원하기 button's beam is pinned here, independent of the base .border-beam
+   rule above. Card-only tweaks should change the base rule or the
+   .suspect-showcase-* overrides, never this block — this button is locked. */
+.cast-schedule-donate-text .border-beam {
+  width: 40px;
+  height: 6px;
+  background: linear-gradient(90deg, transparent, #fff 50%, transparent);
+  filter: blur(2px);
+  offset-path: inset(0 round 0px);
+  offset-distance: 0%;
+  offset-anchor: 50% 50%;
+  offset-rotate: auto;
+  animation: border-beam-travel 6s linear infinite;
+}
+
 .donate-link {
   display: inline-block;
   margin-top: 18px;
