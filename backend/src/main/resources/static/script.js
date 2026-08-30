@@ -220,7 +220,15 @@ if (donateOpenBtns.length && donateModal) {
     donateModal.classList.remove('open');
     donateModal.setAttribute('aria-hidden', 'true');
   }
-  donateOpenBtns.forEach((btn) => btn.addEventListener('click', openDonate));
+  donateOpenBtns.forEach((btn) => {
+    btn.addEventListener('click', openDonate);
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openDonate();
+      }
+    });
+  });
   if (donateClose) donateClose.addEventListener('click', closeDonate);
   if (donateBackdrop) donateBackdrop.addEventListener('click', closeDonate);
   document.addEventListener('keydown', (e) => {
