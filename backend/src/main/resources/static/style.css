@@ -460,7 +460,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   position: relative;
   flex: none;
   background: none;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, .6);
   padding: 10px 26px;
   font-family: inherit;
   font-size: 15.5px;
@@ -473,7 +473,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 .cast-schedule-donate-text::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: -1px;
   padding: 1.5px;
   background: conic-gradient(from 0deg, transparent 0deg, transparent 270deg, #fff 320deg, transparent 360deg);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -481,6 +481,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   mask-composite: exclude;
   animation: cast-schedule-shimmer-spin 3s linear infinite;
   pointer-events: none;
+  filter: drop-shadow(0 0 4px #fff);
 }
 
 @keyframes cast-schedule-shimmer-spin {
