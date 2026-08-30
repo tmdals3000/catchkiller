@@ -470,15 +470,15 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 
 .cast-schedule-table {
   width: 100%;
-  min-width: 640px;
+  min-width: 560px;
   border-collapse: collapse;
-  font-size: 16px;
+  font-size: 14px;
   white-space: nowrap;
 }
 
 .cast-schedule-table th,
 .cast-schedule-table td {
-  padding: 13px 18px;
+  padding: 10px 14px;
   border-bottom: 1px solid var(--line2);
   text-align: center;
 }
