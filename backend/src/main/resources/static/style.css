@@ -457,9 +457,10 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 .cast-schedule-close:hover { background: rgba(0, 0, 0, .75); }
 
 .cast-schedule-donate-text {
+  position: relative;
   flex: none;
   background: none;
-  border: 1px solid rgba(255, 255, 255, .6);
+  border: none;
   padding: 10px 26px;
   font-family: inherit;
   font-size: 15.5px;
@@ -467,7 +468,24 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   color: #fff;
   cursor: pointer;
 }
-.cast-schedule-donate-text:hover { color: var(--accent); border-color: var(--accent); }
+.cast-schedule-donate-text:hover { color: var(--accent); }
+
+.cast-schedule-donate-text::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  background: conic-gradient(from 0deg, transparent 0deg, transparent 270deg, #fff 320deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: cast-schedule-shimmer-spin 3s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes cast-schedule-shimmer-spin {
+  to { transform: rotate(360deg); }
+}
 
 .donate-link {
   display: inline-block;
