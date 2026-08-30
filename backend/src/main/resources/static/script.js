@@ -203,6 +203,10 @@ if (castScheduleBtns.length && castScheduleModal) {
       closeCastSchedule();
     });
   }
+  const castScheduleDonateText = document.getElementById('castScheduleDonateText');
+  if (castScheduleDonateText) {
+    castScheduleDonateText.addEventListener('click', (e) => e.stopPropagation());
+  }
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeCastSchedule();
   });
