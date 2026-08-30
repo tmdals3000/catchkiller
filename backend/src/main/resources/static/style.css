@@ -479,51 +479,39 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 }
 .cast-schedule-donate-text:active { transform: translateY(1px); }
 
-/* LOCKED — 후원하기 button only. This is the exact ShimmerButton-derived
-   spark effect from when the background was removed and the rectangle
-   border was added. Do not touch when editing CAST/SUSPECTS card borders
-   (those use the separate .border-beam rules below) — this block stays as-is. */
-.shimmer-spark-wrap {
-  position: absolute;
-  inset: 0;
-  overflow: visible;
-  filter: blur(1px);
-  container-type: size;
-  padding: 1.5px;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-}
-.shimmer-spark {
-  position: absolute;
-  inset: 0;
-  height: 100cqh;
-  aspect-ratio: 1;
-  border-radius: 0;
-  animation: cast-schedule-shimmer-slide 3s ease-in-out infinite alternate;
-}
-.shimmer-spark::before {
-  content: '';
-  position: absolute;
-  inset: -100%;
-  width: auto;
-  transform: rotate(0deg);
-  background: conic-gradient(from 225deg, transparent 0, #fff 90deg, transparent 90deg);
-  animation: cast-schedule-spin-around 6s linear infinite;
-}
-
+/* LOCKED — 후원하기 button only. Same look as the ShimmerButton version
+   (no background, thin rectangle border, blurred glow hugging the edge),
+   but the rotating conic-gradient + mask-ring that version used is
+   geometrically incapable of constant speed around a rectangle — it always
+   speeds up on the straight sides and eases at the corners. This drives
+   the glow along the button's own border path instead (offset-path), which
+   is provably constant-speed on any shape. Do not touch when editing
+   CAST/SUSPECTS card borders (those use the separate .border-beam rules
+   below, and must stay independent of this). */
 .shimmer-label {
   position: relative;
 }
 
-@keyframes cast-schedule-spin-around {
-  0% { transform: rotate(0deg); }
-  15%, 35% { transform: rotate(90deg); }
-  65%, 85% { transform: rotate(270deg); }
-  100% { transform: rotate(360deg); }
+.donate-spark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 6px;
+  background: linear-gradient(90deg, transparent, #fff 50%, transparent);
+  filter: blur(2px);
+  pointer-events: none;
+  offset-path: inset(0 round 0px);
+  offset-distance: 0%;
+  offset-anchor: 50% 50%;
+  offset-rotate: auto;
+  animation: donate-spark-travel 6s linear infinite;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
-@keyframes cast-schedule-shimmer-slide {
-  to { transform: translate(calc(100cqw - 100%), 0); }
+
+@keyframes donate-spark-travel {
+  to { offset-distance: 100%; }
 }
 /* END LOCKED 후원하기 block */
 
