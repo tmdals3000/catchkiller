@@ -737,6 +737,10 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   color: var(--ink);
   -webkit-text-stroke: .6px currentColor;
 }
+.synopsis-text .synopsis-title {
+  display: inline-block;
+  font-size: 1.4em;
+}
 
 /* ---------- suspects ---------- */
 
