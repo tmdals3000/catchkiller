@@ -489,22 +489,17 @@ function setupTextReveal() {
     i += 1;
   });
 
-  let triggered = false;
   let ticking = false;
   function update() {
     ticking = false;
-    if (triggered) return;
     const rect = el.getBoundingClientRect();
     const start = window.innerHeight * 0.8;
     const end = start - window.innerHeight * 0.18;
     const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
 
-    if (progress > 0) {
-      triggered = true;
-      el.classList.add('revealed');
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-    }
+    // Toggle (not one-shot) so scrolling back up hides it again and scrolling
+    // back down replays the reveal animation each time.
+    el.classList.toggle('revealed', progress > 0);
   }
 
   function onScroll() {
