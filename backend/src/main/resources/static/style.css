@@ -695,7 +695,15 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 .hero-meta { font-size: 13px; color: var(--ink-dim); letter-spacing: 3px; margin-top: 6px; }
 .hero-lead { font-weight: 500; font-size: clamp(16px, 4.5vw, 21px); line-height: 1.6; color: var(--ink-soft); margin: 154px auto 65px; max-width: 520px; }
 .accent-text { color: #fff; }
-.hero-emphasis-font { font-family: 'ChosunIlboMyungjo', 'Chosun Centennial', 'Songam', Georgia, serif; font-weight: 700; font-size: clamp(20px, 5.5vw, 27px); }
+.hero-emphasis-font {
+  font-family: 'ChosunIlboMyungjo', 'Chosun Centennial', 'Songam', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(20px, 5.5vw, 27px);
+  /* ChosunIlboMyungjo only ships one weight, so font-weight:700 alone barely
+     reads as bold — stroke the glyph edges too, same trick used for
+     .synopsis-text strong. */
+  -webkit-text-stroke: .6px currentColor;
+}
 
 .reveal-char {
   display: inline-block;
