@@ -161,18 +161,21 @@ body {
 }
 
 .hunt-line {
-  font-family: 'ChosunIlboMyungjo', 'Chosun Centennial', 'Songam', Georgia, serif;
   font-size: clamp(19px, 4.4vw, 38px);
   line-height: 1.4;
   color: #fff;
   letter-spacing: 1px;
   white-space: nowrap;
+  /* 'Independent' only ships one (heavy) weight — no lighter file exists to
+     switch to, so fake a thinner look by stroking each glyph's edge in the
+     page background color, shaving a sliver off the visible stroke width. */
+  -webkit-text-stroke: .6px #1e1f21;
 }
 
 .hunt-line.accent {
-  font-family: 'Independent', 'Gungsuh', 'GungsuhChe', '바탕', Georgia, serif;
   color: #fff;
   margin-top: 8px;
+  -webkit-text-stroke: 0;
 }
 
 .hunt-rule {
