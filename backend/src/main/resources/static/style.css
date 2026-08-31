@@ -78,6 +78,7 @@
   --accent-deep: #8a6a34;
   --danger: #8f2d24;
   --danger2: #c04331;
+  --danger-bright: #ff5c4d;
   --ink: #ffffff;
   --ink-soft: #ffffff;
   --ink-dim: #ffffff;
@@ -723,10 +724,10 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 
 .section-head { display: flex; align-items: center; gap: 14px; margin: var(--sec) 0 22px; }
 .section-label { font-size: 11px; letter-spacing: 4px; color: var(--ink-dim); white-space: nowrap; }
-.suspects-only .section-label { color: var(--danger); }
+.suspects-only .section-label { color: var(--danger-bright); }
 .section-rule { flex: 1; height: 1px; background: var(--line2); }
 .section-hint { font-size: 12px; color: #fff; font-style: italic; white-space: nowrap; }
-.suspects-only .section-hint { color: var(--danger); }
+.suspects-only .section-hint { color: var(--danger-bright); }
 
 /* ---------- synopsis ---------- */
 
