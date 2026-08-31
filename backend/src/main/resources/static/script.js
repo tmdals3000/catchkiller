@@ -484,7 +484,7 @@ function setupTextReveal() {
     const span = document.createElement('span');
     span.className = 'reveal-char' + (danger ? ' reveal-char-danger' : '');
     span.textContent = ch;
-    span.style.animationDelay = (i * 0.03) + 's';
+    span.style.transitionDelay = (i * 0.03) + 's';
     el.appendChild(span);
     i += 1;
   });
