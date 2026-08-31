@@ -780,6 +780,10 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   display: inline-block;
   font-size: 1.4em;
 }
+.synopsis-text .synopsis-subtitle {
+  display: inline-block;
+  font-size: 1.1em;
+}
 
 /* ---------- suspects ---------- */
 
