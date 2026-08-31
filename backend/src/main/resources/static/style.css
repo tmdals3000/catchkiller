@@ -731,7 +731,39 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 /* ---------- synopsis ---------- */
 
 .synopsis-body { display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start; }
-.synopsis-text { flex: 2; min-width: 320px; font-size: 19px; line-height: 1.95; color: var(--ink-soft); }
+
+.synopsis-pager { display: flex; align-items: center; gap: 8px; flex: none; }
+.synopsis-pager-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, .3);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: background .15s;
+}
+.synopsis-pager-btn:hover { background: rgba(0, 0, 0, .55); }
+.synopsis-pager-btn svg { width: 13px; height: 13px; }
+.synopsis-pager-count { font-size: 12px; letter-spacing: 1px; color: #fff; white-space: nowrap; }
+
+.synopsis-pages {
+  flex: 1 1 100%;
+  min-width: 320px;
+  display: flex;
+  overflow: hidden;
+  touch-action: pan-y;
+  transition: transform .4s ease;
+}
+.synopsis-page {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+.synopsis-text { font-size: 19px; line-height: 1.95; color: var(--ink-soft); }
 .synopsis-text strong {
   font-weight: 700;
   color: var(--ink);

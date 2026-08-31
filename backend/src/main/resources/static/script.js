@@ -412,6 +412,58 @@ function setupShowcaseCarousel(root, autoMs) {
 
 document.querySelectorAll('.suspect-showcase').forEach((root) => setupShowcaseCarousel(root, 5000));
 
+function setupSynopsisPager() {
+  const pager = document.getElementById('synopsisPager');
+  const track = document.getElementById('synopsisPages');
+  if (!pager || !track) return;
+
+  const pages = Array.from(track.querySelectorAll('.synopsis-page'));
+  const total = pages.length;
+  const currentEl = pager.querySelector('.synopsis-pager-current');
+  let index = 0;
+
+  function render() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+    if (currentEl) currentEl.textContent = String(index + 1);
+  }
+
+  function goTo(i) {
+    index = ((i % total) + total) % total;
+    render();
+  }
+
+  pager.querySelector('.synopsis-pager-btn.prev').addEventListener('click', () => goTo(index - 1));
+  pager.querySelector('.synopsis-pager-btn.next').addEventListener('click', () => goTo(index + 1));
+
+  let startX = 0;
+  let startY = 0;
+  let dragging = false;
+
+  track.addEventListener('pointerdown', (e) => {
+    dragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    track.setPointerCapture(e.pointerId);
+  });
+
+  track.addEventListener('pointerup', (e) => {
+    if (!dragging) return;
+    dragging = false;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      goTo(dx < 0 ? index + 1 : index - 1);
+    }
+  });
+
+  track.addEventListener('pointercancel', () => {
+    dragging = false;
+  });
+
+  render();
+}
+setupSynopsisPager();
+
 function setupTextReveal() {
   const el = document.querySelector('.reveal-text');
   if (!el) return;
