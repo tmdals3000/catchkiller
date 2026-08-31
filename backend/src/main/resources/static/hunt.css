@@ -161,6 +161,7 @@ body {
 }
 
 .hunt-line {
+  font-family: 'ChosunIlboMyungjo', 'Chosun Centennial', 'Songam', Georgia, serif;
   font-size: clamp(19px, 4.4vw, 38px);
   line-height: 1.4;
   color: #fff;
@@ -169,6 +170,7 @@ body {
 }
 
 .hunt-line.accent {
+  font-family: 'Independent', 'Gungsuh', 'GungsuhChe', '바탕', Georgia, serif;
   color: #fff;
   margin-top: 8px;
 }
