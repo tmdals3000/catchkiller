@@ -784,6 +784,12 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
   display: inline-block;
   font-size: 1.1em;
 }
+.underline-accent {
+  text-decoration-line: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
 
 /* ---------- suspects ---------- */
 
