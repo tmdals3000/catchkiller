@@ -849,7 +849,7 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 .suspects-only .suspect-showcase-front,
 .suspects-only .suspect-showcase-back {
   border-color: var(--danger);
-  border-width: 2px;
+  border-width: 1.6px;
 }
 
 .suspect-showcase-back {
