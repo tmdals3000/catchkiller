@@ -672,8 +672,8 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 
 .rule { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
 .rule + .hero-title + .rule { margin-bottom: 0; margin-top: 16px; }
-.diamond { width: 7px; height: 7px; background: var(--accent2); transform: rotate(45deg); flex: none; }
-.rule .line { flex: 1; height: 2px; background: linear-gradient(90deg, var(--accent-deep), var(--accent2), var(--accent-deep)); }
+.diamond { width: 7px; height: 7px; background: var(--danger2); transform: rotate(45deg); flex: none; }
+.rule .line { flex: 1; height: 2px; background: linear-gradient(90deg, var(--danger), var(--danger2), var(--danger)); }
 
 .hero-title {
   font-family: 'ChosunIlboMyungjo', 'Chosun Centennial', 'Songam', Georgia, serif;

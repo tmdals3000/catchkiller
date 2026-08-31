@@ -186,8 +186,8 @@ body {
   margin-top: 30px;
 }
 
-.diamond { width: 6px; height: 6px; background: #c69a5a; transform: rotate(45deg); flex: none; }
-.hunt-rule .line { width: 120px; height: 1px; background: linear-gradient(90deg, #8a6a34, #c69a5a, #8a6a34); }
+.diamond { width: 6px; height: 6px; background: #c04331; transform: rotate(45deg); flex: none; }
+.hunt-rule .line { width: 120px; height: 1px; background: linear-gradient(90deg, #8f2d24, #c04331, #8f2d24); }
 
 .hunt-cta-wrap { margin-top: 34px; }
 .hunt-cta {
