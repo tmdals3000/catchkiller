@@ -415,6 +415,7 @@ document.querySelectorAll('.suspect-showcase').forEach((root) => setupShowcaseCa
 function setupSynopsisPager() {
   const pager = document.getElementById('synopsisPager');
   const track = document.getElementById('synopsisPages');
+  const label = document.getElementById('synopsisLabel');
   if (!pager || !track) return;
 
   const pages = Array.from(track.querySelectorAll('.synopsis-page'));
@@ -423,8 +424,9 @@ function setupSynopsisPager() {
   let index = 0;
 
   function render() {
-    track.style.transform = `translateX(-${index * 100}%)`;
+    pages.forEach((page, i) => page.classList.toggle('active', i === index));
     if (currentEl) currentEl.textContent = String(index + 1);
+    if (label && pages[index].dataset.label) label.textContent = pages[index].dataset.label;
   }
 
   function goTo(i) {

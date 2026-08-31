@@ -754,14 +754,21 @@ body.intro-revealed .hero-card-section .ticket-cta-wrap {
 .synopsis-pages {
   flex: 1 1 100%;
   min-width: 320px;
-  display: flex;
-  overflow: hidden;
+  position: relative;
   touch-action: pan-y;
-  transition: transform .4s ease;
 }
 .synopsis-page {
-  flex: 0 0 100%;
-  min-width: 0;
+  display: none;
+  opacity: 0;
+  animation: synopsis-page-in .35s ease both;
+}
+.synopsis-page.active {
+  display: block;
+  opacity: 1;
+}
+@keyframes synopsis-page-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .synopsis-text { font-size: 19px; line-height: 1.95; color: var(--ink-soft); }
 .synopsis-text strong {
