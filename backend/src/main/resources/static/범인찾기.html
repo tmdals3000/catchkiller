@@ -256,9 +256,84 @@
 </footer>
 
 <script>
-  document.querySelectorAll('.hunt-marquee-card').forEach((card) => {
-    card.addEventListener('click', () => card.classList.toggle('flipped'));
+(function () {
+  const track = document.querySelector('.hunt-marquee-track');
+  const wrap = document.querySelector('.hunt-marquee-wrap');
+  const cards = document.querySelectorAll('.hunt-marquee-card');
+
+  // How far the pointer travelled during the current press. A real tap keeps
+  // this near zero; a drag pushes it up, and we use it to tell the two apart.
+  let dragDistance = 0;
+
+  cards.forEach((card) => {
+    card.addEventListener('click', () => {
+      if (dragDistance > 8) return;
+      card.classList.toggle('flipped');
+    });
   });
+
+  if (!track || !wrap) return;
+
+  // The strip is two identical copies side by side. One "loop" is the distance
+  // from the start of copy 1 to the start of copy 2 — advance by exactly that
+  // and the strip looks unchanged, so we can wrap the offset seamlessly.
+  const copies = track.querySelectorAll('.hunt-marquee-copy');
+  let loopWidth = 0;
+  const measure = () => {
+    loopWidth = copies.length > 1
+      ? copies[1].offsetLeft - copies[0].offsetLeft
+      : track.scrollWidth / 2;
+  };
+  measure();
+  window.addEventListener('load', measure);
+  window.addEventListener('resize', measure);
+
+  const LOOP_MS = 22000; // keep the original CSS auto-scroll speed
+  let offset = 0;
+  let last = performance.now();
+  let dragging = false;
+  let startX = 0;
+  let startOffset = 0;
+
+  track.style.animation = 'none'; // JS drives it now; the CSS animation stays as a no-JS fallback
+
+  const wrapOffset = (x) => (loopWidth ? ((x % loopWidth) + loopWidth) % loopWidth : 0);
+
+  function frame(now) {
+    const dt = Math.min(now - last, 64); // ignore big gaps (backgrounded tab)
+    last = now;
+    if (!dragging && loopWidth) {
+      offset = wrapOffset(offset + (loopWidth / LOOP_MS) * dt);
+    }
+    track.style.transform = `translateX(${-offset}px)`;
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  function onMove(e) {
+    const dx = e.clientX - startX;
+    dragDistance = Math.abs(dx);
+    offset = wrapOffset(startOffset - dx);
+  }
+  function onUp() {
+    dragging = false;
+    last = performance.now(); // don't let the paused time count as elapsed
+    wrap.classList.remove('dragging');
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('pointerup', onUp);
+    window.removeEventListener('pointercancel', onUp);
+  }
+  wrap.addEventListener('pointerdown', (e) => {
+    dragging = true;
+    dragDistance = 0;
+    startX = e.clientX;
+    startOffset = offset;
+    wrap.classList.add('dragging');
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
+  });
+})();
 </script>
 
 </body>

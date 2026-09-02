@@ -42,7 +42,13 @@ body {
   margin-top: 8px;
   overflow: hidden;
   padding: 24px 0;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
 }
+.hunt-marquee-wrap.dragging { cursor: grabbing; }
+.hunt-marquee-wrap img { -webkit-user-drag: none; user-drag: none; }
 
 .hunt-marquee-track {
   display: flex;
@@ -161,7 +167,7 @@ body {
 }
 
 .hunt-line {
-  font-size: clamp(19px, 4.4vw, 38px);
+  font-size: clamp(21.5px, 4.4vw, 40.5px);
   line-height: 1.4;
   color: #fff;
   letter-spacing: 1px;
