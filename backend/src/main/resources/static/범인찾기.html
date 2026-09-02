@@ -274,65 +274,73 @@
 
   if (!track || !wrap) return;
 
-  // The strip is two identical copies side by side. One "loop" is the distance
-  // from the start of copy 1 to the start of copy 2 — advance by exactly that
-  // and the strip looks unchanged, so we can wrap the offset seamlessly.
+  // The auto-scroll stays a pure CSS animation so the compositor runs it off
+  // the main thread (buttery). Dragging just freezes it, moves an explicit
+  // transform, then hands back to the animation resumed at the dragged spot
+  // via a negative animation-delay — no per-frame JS while it's rolling.
   const copies = track.querySelectorAll('.hunt-marquee-copy');
+  const LOOP_MS = 22000;
   let loopWidth = 0;
   const measure = () => {
     loopWidth = copies.length > 1
       ? copies[1].offsetLeft - copies[0].offsetLeft
       : track.scrollWidth / 2;
+    track.style.setProperty('--loop', loopWidth + 'px');
   };
   measure();
   window.addEventListener('load', measure);
-  window.addEventListener('resize', measure);
 
-  const LOOP_MS = 22000; // keep the original CSS auto-scroll speed
-  let offset = 0;
-  let last = performance.now();
+  const mod = (x) => (loopWidth ? ((x % loopWidth) + loopWidth) % loopWidth : 0);
+
+  // Live translateX of the track (0..loopWidth), read from the running animation.
+  function liveOffset() {
+    const t = getComputedStyle(track).transform;
+    if (!t || t === 'none') return 0;
+    try { return mod(-new DOMMatrixReadOnly(t).m41); } catch (_) { return 0; }
+  }
+
   let dragging = false;
   let startX = 0;
-  let startOffset = 0;
-
-  track.style.animation = 'none'; // JS drives it now; the CSS animation stays as a no-JS fallback
-
-  const wrapOffset = (x) => (loopWidth ? ((x % loopWidth) + loopWidth) % loopWidth : 0);
-
-  function frame(now) {
-    const dt = Math.min(now - last, 64); // ignore big gaps (backgrounded tab)
-    last = now;
-    if (!dragging && loopWidth) {
-      offset = wrapOffset(offset + (loopWidth / LOOP_MS) * dt);
-    }
-    track.style.transform = `translateX(${-offset}px)`;
-    requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
+  let baseOffset = 0;
+  let curOffset = 0;
 
   function onMove(e) {
     const dx = e.clientX - startX;
     dragDistance = Math.abs(dx);
-    offset = wrapOffset(startOffset - dx);
+    curOffset = mod(baseOffset - dx);
+    track.style.transform = `translate3d(${-curOffset}px,0,0)`;
   }
   function onUp() {
     dragging = false;
-    last = performance.now(); // don't let the paused time count as elapsed
     wrap.classList.remove('dragging');
     window.removeEventListener('pointermove', onMove);
     window.removeEventListener('pointerup', onUp);
     window.removeEventListener('pointercancel', onUp);
+
+    // hand back to the CSS animation, resumed at the dragged position via a
+    // negative delay. Only animation-name / -delay are set inline; duration,
+    // timing and iteration keep coming from the stylesheet.
+    const progress = loopWidth ? curOffset / loopWidth : 0;
+    track.style.transform = '';
+    track.style.animationName = 'none';
+    void track.offsetWidth; // commit the removal so re-adding restarts fresh
+    track.style.animationDelay = `${-progress * LOOP_MS}ms`;
+    track.style.animationName = 'hunt-marquee-scroll';
   }
   wrap.addEventListener('pointerdown', (e) => {
     dragging = true;
     dragDistance = 0;
     startX = e.clientX;
-    startOffset = offset;
+    baseOffset = curOffset = liveOffset();
+    track.style.animationName = 'none'; // fully off so the inline transform wins
+    track.style.transform = `translate3d(${-baseOffset}px,0,0)`;
     wrap.classList.add('dragging');
     window.addEventListener('pointermove', onMove);
     window.addEventListener('pointerup', onUp);
     window.addEventListener('pointercancel', onUp);
   });
+
+  window.addEventListener('resize', () => { if (!dragging) measure(); });
 })();
 </script>
 
