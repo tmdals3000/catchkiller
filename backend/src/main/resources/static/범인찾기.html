@@ -302,18 +302,20 @@
   let baseOffset = 0;
   let curOffset = 0;
 
-  // Tapping a card flips it; hold the strip still while any card is showing
-  // its back so the flip doesn't happen on a moving target and you can read it.
-  let flippedCount = 0;
-  const syncPlay = () => {
-    if (!dragging) track.style.animationPlayState = flippedCount > 0 ? 'paused' : 'running';
-  };
+  // Tapping a card flips it. Hold the strip still just for the flip rotation
+  // (matches the .hunt-marquee-card-inner transition) so it doesn't spin on a
+  // moving target, then let it roll again — front or back, doesn't matter.
+  const FLIP_MS = 600;
+  let flipTimer = null;
   cards.forEach((card) => {
     card.addEventListener('click', () => {
       if (dragDistance > 8) return;
-      flippedCount += card.classList.toggle('flipped') ? 1 : -1;
-      if (flippedCount < 0) flippedCount = 0;
-      syncPlay();
+      card.classList.toggle('flipped');
+      if (!dragging) track.style.animationPlayState = 'paused';
+      clearTimeout(flipTimer);
+      flipTimer = setTimeout(() => {
+        if (!dragging) track.style.animationPlayState = 'running';
+      }, FLIP_MS);
     });
   });
 
@@ -339,7 +341,8 @@
     void track.offsetWidth; // commit the removal so re-adding restarts fresh
     track.style.animationDelay = `${-progress * LOOP_MS}ms`;
     track.style.animationName = 'hunt-marquee-scroll';
-    syncPlay(); // stay paused if a card is still flipped
+    clearTimeout(flipTimer);
+    track.style.animationPlayState = 'running';
   }
   wrap.addEventListener('pointerdown', (e) => {
     dragging = true;
