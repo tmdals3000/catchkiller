@@ -297,21 +297,25 @@
     try { return mod(-new DOMMatrixReadOnly(t).m41); } catch (_) { return 0; }
   }
 
-  let dragging = false;
-  let startX = 0;
+  const TAP_SLOP = 6; // px of travel before a press counts as a drag, not a tap
+
+  let pressed = false;  // pointer is down
+  let dragging = false; // ...and has moved enough to actually be dragging
+  let startX = 0;       // origin for the drag transform (reset when the drag begins)
   let baseOffset = 0;
   let curOffset = 0;
 
-  // Tapping a card flips it. Hold the strip still just for the flip rotation
-  // (matches the .hunt-marquee-card-inner transition) so it doesn't spin on a
-  // moving target, then let it roll again — front or back, doesn't matter.
-  const FLIP_MS = 600;
+  // Tapping a card flips it. Freeze the strip for just the flip rotation, then
+  // let it roll on — front or back doesn't matter. A plain tap never touches
+  // the CSS animation, so there's no restart jitter; the pause is a pure
+  // compositor play-state toggle.
+  const FLIP_MS = 300;
   let flipTimer = null;
   cards.forEach((card) => {
     card.addEventListener('click', () => {
-      if (dragDistance > 8) return;
+      if (dragging || dragDistance > TAP_SLOP) return; // ignore the click a drag leaves behind
       card.classList.toggle('flipped');
-      if (!dragging) track.style.animationPlayState = 'paused';
+      track.style.animationPlayState = 'paused';
       clearTimeout(flipTimer);
       flipTimer = setTimeout(() => {
         if (!dragging) track.style.animationPlayState = 'running';
@@ -319,19 +323,37 @@
     });
   });
 
+  function beginDrag(e) {
+    dragging = true;
+    startX = e.clientX;
+    baseOffset = curOffset = liveOffset();
+    clearTimeout(flipTimer);
+    track.style.animationName = 'none'; // fully off so the inline transform wins
+    track.style.animationPlayState = 'running';
+    track.style.transform = `translate3d(${-baseOffset}px,0,0)`;
+    wrap.classList.add('dragging');
+  }
   function onMove(e) {
+    if (!pressed) return;
+    if (!dragging) {
+      if (Math.abs(e.clientX - startX) < TAP_SLOP) return;
+      beginDrag(e);
+      return;
+    }
     const dx = e.clientX - startX;
     dragDistance = Math.abs(dx);
     curOffset = mod(baseOffset - dx);
     track.style.transform = `translate3d(${-curOffset}px,0,0)`;
   }
   function onUp() {
-    dragging = false;
-    wrap.classList.remove('dragging');
+    pressed = false;
     window.removeEventListener('pointermove', onMove);
     window.removeEventListener('pointerup', onUp);
     window.removeEventListener('pointercancel', onUp);
+    if (!dragging) return; // a tap: the animation was never touched
 
+    dragging = false;
+    wrap.classList.remove('dragging');
     // hand back to the CSS animation, resumed at the dragged position via a
     // negative delay. Only animation-name / -delay are set inline; duration,
     // timing and iteration keep coming from the stylesheet.
@@ -341,17 +363,13 @@
     void track.offsetWidth; // commit the removal so re-adding restarts fresh
     track.style.animationDelay = `${-progress * LOOP_MS}ms`;
     track.style.animationName = 'hunt-marquee-scroll';
-    clearTimeout(flipTimer);
     track.style.animationPlayState = 'running';
   }
   wrap.addEventListener('pointerdown', (e) => {
-    dragging = true;
+    pressed = true;
+    dragging = false;
     dragDistance = 0;
     startX = e.clientX;
-    baseOffset = curOffset = liveOffset();
-    track.style.animationName = 'none'; // fully off so the inline transform wins
-    track.style.transform = `translate3d(${-baseOffset}px,0,0)`;
-    wrap.classList.add('dragging');
     window.addEventListener('pointermove', onMove);
     window.addEventListener('pointerup', onUp);
     window.addEventListener('pointercancel', onUp);
