@@ -265,14 +265,12 @@
   // this near zero; a drag pushes it up, and we use it to tell the two apart.
   let dragDistance = 0;
 
-  cards.forEach((card) => {
-    card.addEventListener('click', () => {
-      if (dragDistance > 8) return;
-      card.classList.toggle('flipped');
-    });
-  });
-
-  if (!track || !wrap) return;
+  if (!track || !wrap) {
+    cards.forEach((card) => card.addEventListener('click', () => {
+      if (dragDistance <= 8) card.classList.toggle('flipped');
+    }));
+    return;
+  }
 
   // The auto-scroll stays a pure CSS animation so the compositor runs it off
   // the main thread (buttery). Dragging just freezes it, moves an explicit
@@ -304,6 +302,21 @@
   let baseOffset = 0;
   let curOffset = 0;
 
+  // Tapping a card flips it; hold the strip still while any card is showing
+  // its back so the flip doesn't happen on a moving target and you can read it.
+  let flippedCount = 0;
+  const syncPlay = () => {
+    if (!dragging) track.style.animationPlayState = flippedCount > 0 ? 'paused' : 'running';
+  };
+  cards.forEach((card) => {
+    card.addEventListener('click', () => {
+      if (dragDistance > 8) return;
+      flippedCount += card.classList.toggle('flipped') ? 1 : -1;
+      if (flippedCount < 0) flippedCount = 0;
+      syncPlay();
+    });
+  });
+
   function onMove(e) {
     const dx = e.clientX - startX;
     dragDistance = Math.abs(dx);
@@ -326,6 +339,7 @@
     void track.offsetWidth; // commit the removal so re-adding restarts fresh
     track.style.animationDelay = `${-progress * LOOP_MS}ms`;
     track.style.animationName = 'hunt-marquee-scroll';
+    syncPlay(); // stay paused if a card is still flipped
   }
   wrap.addEventListener('pointerdown', (e) => {
     dragging = true;
