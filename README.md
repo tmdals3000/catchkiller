@@ -1,5 +1,5 @@
 # 🔪 캐치킬러 — 게스트하우스 살인사건
-catchkiller.vercel.app
+catchkiller.vercel.app -> 핸드폰 기준으로 만들었으니 핸드폰으로 접속하시길 바랍니다
 
 <p align="center">
   <img src="backend/src/main/resources/static/posters/catchkiller.jpg" alt="캐치킬러 포스터" width="360">
